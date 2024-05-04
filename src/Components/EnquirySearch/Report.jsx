@@ -26,7 +26,7 @@ const Report = () => {
                 <td className=' border-r'>09-9999999</td>
                 <td className=' border-r'>30</td>
                 <td className=' border-r'>30</td>
-                <td><button className='bg-[#214C9B] text-white px-8 py-1 rounded-[3px]'>Download</button></td>
+                <td><button className='bg-[#214C9B] text-white px-8 py-1 rounded-[3px] hover:bg-white hover:border-[#214C9B] border hover:text-[#214C9B] transition-all duration-300'>Download</button></td>
               </tr>
             </tbody>
         </table>

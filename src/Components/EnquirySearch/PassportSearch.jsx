@@ -67,7 +67,9 @@ const PassportSearch = () => {
                         </div>
                     </div>
                 </div>
-                <button className='bg-[#214C9B] text-white px-8 py-1 rounded-[3px]'>Search</button>
+                <button className='bg-[#214C9B] text-white px-8 py-1 rounded-[3px] hover:bg-white hover:border-[#214C9B] border hover:text-[#214C9B] transition-all duration-300'>
+                    Search
+                </button>
             </form>
         </>
     )
