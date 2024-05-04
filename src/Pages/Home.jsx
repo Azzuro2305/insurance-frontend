@@ -7,8 +7,8 @@ export const Home = () => {
     <>
         <main className="w-[1150px] mx-auto">
             <Header />
-            <Footer />
         </main>
+        <Footer />
     </>
   )
 }
