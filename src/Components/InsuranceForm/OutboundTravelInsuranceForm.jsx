@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import Images from "../Images/Images";
+import { AssociationAgentForm } from "../AssociationAgentForm/AssociationAgentForm";
+import { NormalAgentForm } from "../NormalAgentForm/NormalAgentForm";
+import Modal from "react-modal";
 import "react-datepicker/dist/react-datepicker.css";
 
 export const OutboundTravelInsuranceForm = () => {
@@ -8,8 +11,10 @@ export const OutboundTravelInsuranceForm = () => {
   const [maxDate, setMaxDate] = useState(new Date());
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
-  console.log(currentMonth);
   const currentDay = new Date().getDate();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  Modal.setAppElement("#root");
 
   const [buyOption, setBuyOption] = useState("foryourself");
 
@@ -54,7 +59,7 @@ export const OutboundTravelInsuranceForm = () => {
     <>
       <form
         action=""
-        className="text-[#214C9B] bg-white text-[14px] font-semibold w-[1150px] mx-auto rounded-md shadow-lg py-12 px-8"
+        className="text-[#214C9B] bg-white text-[14px] font-[500] w-[1150px] mx-auto rounded-md shadow-lg py-12 px-8"
       >
         <h1 className="text-[16px] font-semibold">
           PASSPORT INFORMATION (In English)
@@ -307,6 +312,15 @@ export const OutboundTravelInsuranceForm = () => {
               id=""
             >
               <option value="">SELECT ONE</option>
+              <option value="5">5 DAYS</option>
+              <option value="10">10 DAYS</option>
+              <option value="15">15 DAYS</option>
+              <option value="30">30 DAYS</option>
+              <option value="60">60 DAYS</option>
+              <option value="90">90 DAYS</option>
+              <option value="120">120 DAYS</option>
+              <option value="150">150 DAYS</option>
+              <option value="180">180 DAYS</option>
             </select>
           </div>
           <div className="flex flex-col">
@@ -321,6 +335,9 @@ export const OutboundTravelInsuranceForm = () => {
               id=""
             >
               <option value="">SELECT ONE</option>
+              <option value="10000">USD 10,000</option>
+              <option value="30000">USD 30,000</option>
+              <option value="50000">USD 50,000</option>
             </select>
           </div>
           {/* // ------------------- 5th ------------------- */}
@@ -678,8 +695,8 @@ export const OutboundTravelInsuranceForm = () => {
             <div className="flex items-center gap-x-2">
               <input
                 type="radio"
-                id="selfService"
-                name="agentOption"
+                id="selfservice"
+                name="agentoption"
                 value="selfservice"
                 checked={insuredInfo.agentOption === "selfservice"}
                 onChange={(e) =>
@@ -690,63 +707,200 @@ export const OutboundTravelInsuranceForm = () => {
                 }
                 className="w-6 h-6 flex-none"
               />
-			  {/* #FCF050 */}
-			  <div className="flex gap-x-1 items-center p-2 border-2 border-[#DDDDDD] bg-white">
-				<img className="w-[30px]" src={Images.selfService} alt="" />
-				<label htmlFor="associationAgent">
-					SELF-SERVICE
-				</label>
-			  </div>
+              {/* #FCF050 */}
+              <div
+                className={`flex gap-x-1 items-center p-2 border-2 ${
+                  insuredInfo.agentOption === "selfservice"
+                    ? "border-[#FCF050]"
+                    : "border-[#DDDDDD]"
+                } bg-white`}
+              >
+                <img className="w-[30px]" src={Images.selfService} alt="" />
+                <label htmlFor="selfservice">SELF-SERVICE</label>
+              </div>
             </div>
             <div className="flex items-center gap-x-2">
               <input
                 type="radio"
-                id="normalAgent"
-                name="agentOption"
+                id="normalagent"
+                name="agentoption"
                 value="normalagent"
-                checked={insuredInfo.agentOption === "normalAgent"}
-                onChange={(e) =>
+                checked={insuredInfo.agentOption === "normalagent"}
+                onChange={(e) => {
                   setInsuredInfo({
                     ...insuredInfo,
                     agentOption: e.target.value,
-                  })
-                }
+                  });
+                  setIsModalOpen(true);
+                }}
                 className="w-6 h-6 flex-none"
               />
-			  <div className="flex gap-x-1 items-center p-2 border-2 border-[#DDDDDD] bg-white">
-				<img className="w-[30px]" src={Images.normalAgent} alt="" />
-				<label htmlFor="associationAgent">
-					AGENT VERIFICATION
-				</label>
-			  </div>
+              <div
+                className={`flex gap-x-1 items-center p-2 border-2 ${
+                  insuredInfo.agentOption === "normalagent"
+                    ? "border-[#FCF050]"
+                    : "border-[#DDDDDD]"
+                } bg-white`}
+              >
+                <img className="w-[30px]" src={Images.normalAgent} alt="" />
+                <label htmlFor="normalagent">AGENT VERIFICATION</label>
+              </div>
             </div>
             <div className="flex items-center gap-x-2">
               <input
                 type="radio"
-                id="associationAgent"
-                name="agentOption"
+                id="associationagent"
+                name="agentoption"
                 value="associationagent"
-                checked={insuredInfo.agentOption === "associationAgent"}
-                onChange={(e) =>
+                checked={insuredInfo.agentOption === "associationagent"}
+                onChange={(e) => {
                   setInsuredInfo({
                     ...insuredInfo,
                     agentOption: e.target.value,
-                  })
-                }
+                  });
+                  setIsModalOpen(true);
+                }}
                 className="w-6 h-6 flex-none"
               />
-			  <div className="flex gap-x-1 items-center p-2 border-2 border-[#DDDDDD] bg-white">
-				<img className="w-[30px]" src={Images.associationAgent} alt="" />
-				<label htmlFor="associationAgent">
-					ASSOCIATION AGENT VERIFICATION
-				</label>
-			  </div>
-			  
+              <div
+                className={`flex gap-x-1 items-center p-2 border-2 ${
+                  insuredInfo.agentOption === "associationagent"
+                    ? "border-[#FCF050]"
+                    : "border-[#DDDDDD]"
+                } bg-white`}
+              >
+                <img
+                  className="w-[30px]"
+                  src={Images.associationAgent}
+                  alt=""
+                />
+                <label htmlFor="associationagent">
+                  ASSOCIATION AGENT VERIFICATION
+                </label>
+              </div>
             </div>
           </div>
+
+          {insuredInfo.agentOption === "normalagent" && (
+            <div className="grid grid-cols-3 gap-x-8 mt-4">
+              <div className="flex flex-col">
+                <label htmlFor="">
+                  Name <span className="text-red-600">*</span>
+                </label>
+                <input
+                  className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
+                  placeholder="AGENT NAME"
+                  type="text"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="">
+                  Agent License Number <span className="text-red-600">*</span>
+                </label>
+                <input
+                  className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
+                  placeholder="AGENT LICENSE NUMBER"
+                  type="text"
+                />
+              </div>
+              <div className="my-auto font-[500]">
+                <button
+                  className="underline align-middle"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setIsModalOpen(true);
+                  }}
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          )}
+
+          {insuredInfo.agentOption === "associationagent" && (
+            <div className="grid grid-cols-3 gap-x-8 mt-4">
+              <div className="flex flex-col">
+                <label htmlFor="">
+                  Agent License Number <span className="text-red-600">*</span>
+                </label>
+                <input
+                  className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
+                  placeholder="AGENT LICENSE NUMBER"
+                  type="text"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="">
+                  Name <span className="text-red-600">*</span>
+                </label>
+                <input
+                  className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
+                  placeholder=""
+                  type="text"
+                />
+              </div>
+              <div className="my-auto font-[500]">
+                <button
+                  className="underline align-middle"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setIsModalOpen(true);
+                  }}
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-		<input className="bg-[#214C9B] text-white px-6 py-2 rounded-sm" type="submit" value="SUBMIT AND CONTINUE"/>
+        <input
+          className="bg-[#214C9B] text-white px-6 py-2 rounded-sm"
+          type="submit"
+          value="SUBMIT AND CONTINUE"
+        />
       </form>
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          },
+          content: {
+            backgroundColor: "rgba(0, 0, 0, 0)",
+            border: "none",
+            width: "40%",
+            position: "relative",
+            color: "lightsteelblue",
+          },
+        }}
+      >
+        <button
+          className="ml-auto text-[#214C9B] text-[20px] font-[900] z-index-20 absolute right-6 w-10 rounded-full p-2"
+          style={{ zIndex: 1 }}
+          onClick={() => setIsModalOpen(false)}
+        >
+          X
+        </button>
+        {isModalOpen &&
+          (insuredInfo.agentOption === "associationagent" ? (
+            <div className="animate-fade-in">
+              <AssociationAgentForm />
+            </div>
+          ) : (
+            <div className="animate-fade-in">
+              <NormalAgentForm />
+            </div>
+          ))}
+      </Modal>
     </>
   );
 };
+
+// #727272    gray
+
+// #FCF050    yellow
