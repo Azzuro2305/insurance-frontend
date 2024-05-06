@@ -2,7 +2,7 @@ import cancle from '../assets/cancle.png';
 import mmk from '../assets/mmk.png';
 import usdBlue from '../assets/usdBlue.png';
 import usdYellow from '../assets/usdYellow.png';
-import usd from '../assets/Usd.png';
+import usd from '../assets/usd.png';
 import ayapay from '../assets/ayapay.jpg';
 import cbpay from '../assets/cbpay.png';
 import jcb from '../assets/jcb.png';

@@ -22,9 +22,9 @@ const BuyOption = () => {
             <div className='flex my-4 gap-7'>
                 <button onClick={mmkBtn}>
                     <div className='bg-[#214C9B] w-[360px]'>
-                        <div className='py-6 text-center'>
+                        <div className='py-7 text-center'>
                             <img src={img.mmk} alt=""
-                                className='size-16 mx-auto' />
+                                className='size-14 mx-auto' />
                             <p className='text-lg my-4 text-[#F1E430] font-bold'>မြန်မာကျပ်ငွေဖြင့် ပေးသွင်းရန်</p>
                         </div>
                     </div>
@@ -35,7 +35,7 @@ const BuyOption = () => {
                         <div className='py-6 text-center'>
                             <img src={img.usd} alt=""
                                 className=' mx-auto size-16' />
-                            <p className='text-lg my-4 text-[#F1E430] font-bold'>USD ဖြင့် ပေးသွင်းရန်</p>
+                            <p className='text-lg my-3 pb-2 text-[#F1E430] font-bold'>USD ဖြင့် ပေးသွင်းရန်</p>
                         </div>
                     </div>
                 </button>
