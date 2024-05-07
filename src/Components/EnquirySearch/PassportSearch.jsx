@@ -29,7 +29,7 @@ const PassportSearch = () => {
     return (
         <>
             <form onSubmit={searchHandler} className='mb-4'>
-                <div className='flex justify-between mb-2'>
+                <div className='medium:flex medium:justify-between mb-2'>
                     <div>
                         <label htmlFor="passportNum" className='text-[#214C9B] font-semibold text-[16px] text-center'>
                             Passport Number <span className=' text-red-500 font-bold'>*</span>
@@ -39,7 +39,7 @@ const PassportSearch = () => {
                                 name="passportNum"
                                 value={data.passportNum}
                                 onChange={inputHandler}
-                                className=' border rounded-[3px] w-[510px] border-gray-300 px-3 py-[6px] my-3 outline-none  focus:ring-4 duration-300'
+                                className=' border rounded-[3px] medium:w-[420px] xl:w-[500px] border-gray-300 px-3 w-full py-[6px] my-3 outline-none  focus:ring-4 duration-300'
                                 placeholder='...' />
                                 {error.passportNum && (
                                     <p className='text-red-500 font-semibold text-base mb-4'>
@@ -52,11 +52,11 @@ const PassportSearch = () => {
                         <label htmlFor="passportNum" className='text-[#214C9B] font-semibold text-[16px] text-center'>
                             Passport Issued Country <span className=' text-red-500 font-bold'>*</span>
                         </label>
-                        <div className=' w-1/2'>
+                        <div className=''>
                             <select name="country"
                             onChange={inputHandler}
                             value={data.country}
-                            className=' border rounded-sm border-gray-300 px-3 py-[7px] my-3 w-[510px] focus:ring-4 duration-300'>
+                            className=' border rounded-sm border-gray-300 px-3 py-[7px] my-3 medium:w-[420px] xl:w-[500px] w-full focus:ring-4 duration-300'>
                                 <option value="">SELECT ONE</option>
                             </select>
                             {error.country && (

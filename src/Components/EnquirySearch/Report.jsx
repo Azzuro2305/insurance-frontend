@@ -6,9 +6,10 @@ const Report = () => {
         <h1 className=' text-xl text-[#214C9B] font-[630] mb-4 tracking-tight'>
           Inbound Travel Accident Insurance Purchase History
         </h1>
+        <div className='xs2:overflow-x-scroll lg:overflow-hidden'>
         <table className='text-center w-full border border-gray-300'>
             <thead className=' bg-[#214C9B] text-white'>
-              <tr className=' text-lg'>
+              <tr className='xs2:text-base text-lg'>
                 <th scope='col' className='px-2 py-3 font-normal border-r'>No.</th>
                 <th scope='col' className='px-2 py-3 font-normal border-r'>Insured Name</th>
                 <th scope='col' className='px-2 py-3 font-normal border-r'>Age</th>
@@ -30,6 +31,7 @@ const Report = () => {
               </tr>
             </tbody>
         </table>
+        </div>
     </div>
   )
 }

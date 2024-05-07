@@ -18,10 +18,10 @@ const BuyOption = () => {
     }
     return (
         <div className='my-8'>
-            <h1 className='text-[22px] font-[640] text-[#214C9B]'>OUTBOUND TRAVEL ACCIDENT INSURANCE</h1>
-            <div className='flex my-4 gap-7'>
+            <h1 className='md:text-[22px] text-xl font-[640] text-[#214C9B]'>OUTBOUND TRAVEL ACCIDENT INSURANCE</h1>
+            <div className='sm:flex my-4 sm:gap-7'>
                 <button onClick={mmkBtn}>
-                    <div className='bg-[#214C9B] w-[360px]'>
+                    <div className='bg-[#214C9B] w-72 xs:w-[400px] sm:w-64 md:w-80 lg:w-[360px] duration-300 mb-3 sm:mb-0'>
                         <div className='py-7 text-center'>
                             <img src={img.mmk} alt=""
                                 className='size-14 mx-auto' />
@@ -31,7 +31,7 @@ const BuyOption = () => {
                 </button>
 
                 <button onClick={usdBtn}>
-                    <div className='bg-[#214C9B] w-[360px]'>
+                    <div className='bg-[#214C9B] w-72 xs:w-[400px] sm:w-64 md:w-80 lg:w-[360px] duration-300'>
                         <div className='py-6 text-center'>
                             <img src={img.usd} alt=""
                                 className=' mx-auto size-16' />
