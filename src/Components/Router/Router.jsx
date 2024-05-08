@@ -22,6 +22,7 @@ export const Router = () => {
             <Route path="/customer" element={<Customer />} />
             <Route path="/news" element={<News />} />
             <Route path="/contact" element={<Contact />} /> */}
+            
             </Routes>
         </BrowserRouter>
     </>
