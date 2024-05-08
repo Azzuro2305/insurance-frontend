@@ -21,7 +21,11 @@ const BuyOption = () => {
             <h1 className='md:text-[22px] text-xl font-[640] text-[#214C9B]'>OUTBOUND TRAVEL ACCIDENT INSURANCE</h1>
             <div className='sm:flex my-4 sm:gap-7'>
                 <button onClick={mmkBtn}>
+<<<<<<< HEAD
                     <div className='bg-[#214C9B] w-72 xs:w-[400px] sm:w-64 md:w-80 lg:w-[360px] duration-300 mb-3 sm:mb-0'>
+=======
+                    <div className='bg-[#214C9B] w-[360px]'>
+>>>>>>> ccf52ec (payment info)
                         <div className='py-7 text-center'>
                             <img src={img.mmk} alt=""
                                 className='size-14 mx-auto' />
