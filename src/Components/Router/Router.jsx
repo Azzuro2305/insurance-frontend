@@ -17,8 +17,8 @@ export const Router = () => {
             <Route path="/" element={<Home />} />
             <Route path="/buy-online-outbound-travel-accident-insurance" element={<BuyOutboundTravelInsurance />} />
             <Route path="/pdf" element={<PDFFormat />} />
-            {/* <Route path="/about" element={<About />} />
-            <Route path="/insurance" element={<Insurance />} />
+            {/* <Route path="/about" element={<About />} /> */}
+            {/* <Route path="/insurance" element={<Insurance />} />
             <Route path="/customer" element={<Customer />} />
             <Route path="/news" element={<News />} />
             <Route path="/contact" element={<Contact />} /> */}

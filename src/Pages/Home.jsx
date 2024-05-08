@@ -1,25 +1,28 @@
 import React from 'react'
 import { Header } from '../Components/Header/Header'
 import { Footer } from '../Components/Footer/Footer'
-<<<<<<< HEAD
 import { DownloadPDFButton } from '../Components/InsuranceForm/DownloadPDFButton'
-=======
+import { BuyOption } from '../Components/BuyOption/BuyOption'
+import { PaymentOption } from '../Components/PaymentOption/PaymentOption'
+import { PaymentInfo } from '../Components/PaymentInfo/PaymentInfo'
+
 import Enquiry from './Enquiry'
->>>>>>> dev/zinmaynine
+
 
 export const Home = () => {
   return (
     <>
-        <main className="w-[1150px] mx-auto">
-            <Header />
-<<<<<<< HEAD
-
-            <DownloadPDFButton />
-            
-=======
+        <Header />
+        <main className="bg-[#F1F4F8] border-b-[1px] border-gray-400">
+          <section className="xs2:w-[300px] xs:w-[430px] sm:w-[540px] md:w-[930px] xl:w-[1150px] mt-[-30px] py-[50px] mx-auto">
+          <BuyOption />
+          </section>
+            {/* <DownloadPDFButton />
             <Enquiry/>
-            <Footer />
->>>>>>> dev/zinmaynine
+            <Footer /> */}
+            
+            {/* <PaymentInfo />
+            <PaymentOption /> */}
         </main>
         <Footer />
     </>
