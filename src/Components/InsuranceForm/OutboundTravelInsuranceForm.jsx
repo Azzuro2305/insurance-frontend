@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import Images from "../Images/Images";
 import { AssociationAgentForm } from "../AssociationAgentForm/AssociationAgentForm";
 import { NormalAgentForm } from "../NormalAgentForm/NormalAgentForm";
 import Modal from "react-modal";
+import axios from "axios";
+import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 
 export const OutboundTravelInsuranceForm = () => {
@@ -18,11 +20,79 @@ export const OutboundTravelInsuranceForm = () => {
 
   const [buyOption, setBuyOption] = useState("foryourself");
 
+  const [countries, setCountries] = useState([]);
+
   const [insuredInfo, setInsuredInfo] = useState({
-    buyOption: "foryourself",
+    // insured information
+    passportNumber: "",
+    passportIssuedDate: "",
+    passportIssuedCountry: "",
+    insuredName: "",
+    insuredDOB: "",
+    insuredGender: "",
+    insuredPhoneCode: "", // to bind with insuredPhoneNumber
+    insuredPhoneNumber: "",
+    foreignContactCode: "", // to bind with foreignContactNumber
+    foreignContactNumber: "",
+    fatherName: "",
+    race: "",
+    occupation: "",
     maritalStatus: "single",
+    insuredEmail: "",
+    insuredAddress: "",
+    insuredAddressAbroad: "",
+    isChild: "",
+    destinationCountry: "",
+
+    // Proposal Form
+    estimateDepartureDate: "",
+    journeyTo: "",
+    journeyFrom: "MYANMAR", // default value is "MYANMAR"
+    policyStartDate: "",
+    coveragePlan: "",
+    packages: "",
+
+    // beneficiary Information
+    beneficiaryName: "",
+    beneficiaryDOB: "",
+    beneficiaryRelationship: "",
+    beneficiaryPhoneCode: "", // pass UUID to backend
+    beneficiaryPhoneNumber: "",
+    beneficiaryNRC: "",
+    beneficiaryEmail: "",
+    beneficiaryAddress: "",
+
+    // Child Information
+    childName: "",
+    childDOB: "",
+    childGender: "",
+    guardianceName: "",
+    childRelationship: "",
+
+    // Agent Information
+    agentName: "",
+    agentPassword: "",
+    agentLicenseNumber: "",
+
+    // Child, Agent Check
+    hasChild: false,
+    hasAgent: false,
+    isValidated: false,
+
+    // Additional Check only for frontend
+    buyOption: "foryourself",
     agentOption: "selfservice",
   });
+
+  const [dates, setDates] = useState({
+    passportIssuedDate: null,
+    insuredDOB: null,
+    estimateDepartureDate: null,
+    policyStartDate: null,
+    childDOB: null,
+    beneficiaryDOB: null,
+  });
+  console.log(insuredInfo);
 
   const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
     <button
@@ -33,17 +103,24 @@ export const OutboundTravelInsuranceForm = () => {
       }}
       ref={ref}
     >
-      {value}
+      {value && !isNaN(new Date(value)) ? format(new Date(value), 'yyyy-MM-dd') : 'Select a date'}
     </button>
   ));
 
-  const handleDateChange = (date) => {
-    setStartDate(date);
-    if (date.getFullYear() === new Date().getFullYear()) {
-      setMaxDate(new Date());
-    } else {
-      setMaxDate(new Date(date.getFullYear(), 11, 31));
-    }
+  // const handleDateChange = (date) => {
+  //   setStartDate(date);
+  //   if (date.getFullYear() === new Date().getFullYear()) {
+  //     setMaxDate(new Date());
+  //   } else {
+  //     setMaxDate(new Date(date.getFullYear(), 11, 31));
+  //   }
+  // };
+
+  const handleDateChange = (date, key) => {
+    setDates(prevDates => ({
+      ...prevDates,
+      [key]: date,
+    }));
   };
 
   const filterFutureMonths = (date) => {
@@ -55,9 +132,40 @@ export const OutboundTravelInsuranceForm = () => {
     );
   };
 
+  //   ------------------- API (START) -------------------
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/country/all");
+        console.log(response.data);
+        setCountries(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  const submitHandler = async (e) => {
+    // const registerUrl = "http://localhost:8080/insured-person";
+    e.preventDefault()
+    try {
+      const response = await axios.post("http://localhost:8080/insured-person", insuredInfo);
+      console.log(response.data);
+      console.log(insuredInfo);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  console.log(countries);
+
+  //   ------------------- API (END) -------------------
   return (
     <>
       <form
+        onSubmit={ submitHandler }
         action=""
         className="text-[#214C9B] bg-white text-[14px] font-[500] w-[1150px] mx-auto rounded-md shadow-lg py-12 px-8"
       >
@@ -75,6 +183,12 @@ export const OutboundTravelInsuranceForm = () => {
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER YOUR PASSPORT NO"
               type="text"
+              onChange={(e) =>
+                setInsuredInfo({
+                  ...insuredInfo,
+                  passportNumber: e.target.value,
+                })
+              }
             />
           </div>
           <div className="flex flex-col">
@@ -84,13 +198,18 @@ export const OutboundTravelInsuranceForm = () => {
               <span className="text-red-600">*</span>
             </label>
             <DatePicker
-              selected={startDate}
+              selected={dates.passportIssuedDate}
               onChange={(date) => {
-                if (filterFutureMonths(date)) {
-                  handleDateChange(date);
-                }
+                // if (filterFutureMonths(date)) {
+                //   handleDateChange(date);
+                // }
+                handleDateChange(date, "passportIssuedDate");
+                setInsuredInfo({
+                  ...insuredInfo,
+                  passportIssuedDate: format(date, "yyyy-MM-dd"),
+                });
               }}
-              dateFormat="dd-MM-yyyy"
+              dateFormat="yyyy-MM-dd"
               customInput={<CustomInput />}
               showMonthDropdown
               showYearDropdown
@@ -99,6 +218,31 @@ export const OutboundTravelInsuranceForm = () => {
               maxDate={maxDate}
               filterDate={filterFutureMonths}
             />
+
+{/* <DatePicker
+  selected={dates.estimateDeparture}
+  onChange={(date) => {
+    // handleDateChange(date);
+
+    handleDateChange(date, "estimateDepartureDate");
+
+    setInsuredInfo({
+      ...insuredInfo,
+      estimateDepartureDate: format(date, "yyyy-MM-dd"),
+    });
+  }}
+  dateFormat="yyyy-MM-dd"
+  customInput={<CustomInput />}
+  showMonthDropdown
+  showYearDropdown
+  dropdownMode="select"
+  // minDate={new Date()}
+/> */}
+
+
+
+
+
             {/* <DatePicker
   selected={startDate}
   onChange={(date) => {
@@ -106,7 +250,7 @@ export const OutboundTravelInsuranceForm = () => {
 	  handleDateChange(date);
 	}
   }}
-  dateFormat="dd-MM-yyyy"
+  dateFormat="yyyy-MM-dd"
   customInput={<CustomInput />}
   renderMonthDropdown={(props) => <CustomMonthDropdown {...props} />}
   showMonthDropdown
@@ -119,7 +263,7 @@ export const OutboundTravelInsuranceForm = () => {
             {/* <DatePicker
   selected={startDate}
   onChange={handleDateChange}
-  dateFormat="dd-MM-yyyy"
+  dateFormat="yyyy-MM-dd"
   customInput={<CustomInput />}
   renderMonthDropdown={(props) => <CustomMonthDropdown {...props} />}
   showMonthDropdown
@@ -137,8 +281,20 @@ export const OutboundTravelInsuranceForm = () => {
               className="text-[#4A5056] border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               name=""
               id=""
+              onChange={(e) =>
+                setInsuredInfo({
+                  ...insuredInfo,
+                  passportIssuedCountry: e.target.value,
+                })
+              }
             >
               <option value="">SELECT ONE</option>
+              {Array.isArray(countries) &&
+                countries.map((country, index) => (
+                  <option key={index} value={country.countryID}>
+                    {country.countryName}
+                  </option>
+                ))}
             </select>
           </div>
         </div>
@@ -153,9 +309,13 @@ export const OutboundTravelInsuranceForm = () => {
               id="foryourself"
               name="buyoption"
               value="foryourself"
-              checked={insuredInfo.buyOption === "foryourself"}
+              // checked={insuredInfo.buyOption === "foryourself"}
               onChange={(e) =>
-                setInsuredInfo({ ...insuredInfo, buyOption: e.target.value })
+                setInsuredInfo({
+                  ...insuredInfo,
+                  buyOption: e.target.value,
+                  hasChild: false,
+                })
               }
               className="w-6 h-6"
             />
@@ -169,9 +329,13 @@ export const OutboundTravelInsuranceForm = () => {
               id="forthechild"
               name="buyoption"
               value="forthechild"
-              checked={insuredInfo.buyOption === "forthechild"}
+              // checked={insuredInfo.buyOption === "forthechild"}
               onChange={(e) =>
-                setInsuredInfo({ ...insuredInfo, buyOption: e.target.value })
+                setInsuredInfo({
+                  ...insuredInfo,
+                  buyOption: e.target.value,
+                  hasChild: true,
+                })
               }
               className="w-6 h-6"
             />
@@ -193,6 +357,9 @@ export const OutboundTravelInsuranceForm = () => {
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER INSURED NAME"
               type="text"
+              onChange={(e) =>
+                setInsuredInfo({ ...insuredInfo, insuredName: e.target.value })
+              }
             />
           </div>
           <div className="flex flex-col">
@@ -201,10 +368,33 @@ export const OutboundTravelInsuranceForm = () => {
               မွေးသက္ကရာဇ်(နိုင်ငံကူးလက်မှတ်ပါမွေးသက္ကရာဇ်){" "}
               <span className="text-red-600">*</span>
             </label>
-            <input
+            {/* <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-              placeholder="DD-MM-YYYY"
+              placeholder="yyyy-MM-dd"
               type="text"
+              onChange={(e) =>
+                setInsuredInfo({ ...insuredInfo, insuredDOB: e.target.value })
+              }
+            /> */}
+            <DatePicker
+              selected={dates.insuredDOB}
+              onChange={(date) => {
+                // if (filterFutureMonths(date)) {
+                //   handleDateChange(date);
+                // }
+                handleDateChange(date, "insuredDOB");
+                setInsuredInfo({
+                  ...insuredInfo,
+                  insuredDOB: format(date, "yyyy-MM-dd"),
+                });
+              }}
+              dateFormat="yyyy-MM-dd"
+              customInput={<CustomInput />}
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              maxDate={maxDate}
+              filterDate={filterFutureMonths}
             />
           </div>
           <div className="flex flex-col">
@@ -218,6 +408,12 @@ export const OutboundTravelInsuranceForm = () => {
               placeholder="SELECT ONE"
               name=""
               id=""
+              onChange={(e) =>
+                setInsuredInfo({
+                  ...insuredInfo,
+                  insuredGender: e.target.value,
+                })
+              }
             >
               <option value="">SELECT ONE</option>
               <option value="male">MALE</option>
@@ -227,20 +423,20 @@ export const OutboundTravelInsuranceForm = () => {
 
           {/* // ------------------- 3rd ------------------- */}
 
-          <div className="flex flex-col">
-            <label htmlFor="">Estimate Departure Date</label>
-            <label htmlFor="">
-              ထွက်ခွာမည့်နေ့(ခန့်မှန်းခြေ){" "}
-              <span className="text-red-600">*</span>
-            </label>
-            <DatePicker
-              selected={startDate}
+
+          {/* <DatePicker
+              selected={dates.passportIssuedDate}
               onChange={(date) => {
-                if (filterFutureMonths(date)) {
-                  handleDateChange(date);
-                }
+                // if (filterFutureMonths(date)) {
+                //   handleDateChange(date);
+                // }
+                handleDateChange(date, "passportIssuedDate");
+                setInsuredInfo({
+                  ...insuredInfo,
+                  passportIssuedDate: format(date, "yyyy-MM-dd"),
+                });
               }}
-              dateFormat="dd-MM-yyyy"
+              dateFormat="yyyy-MM-dd"
               customInput={<CustomInput />}
               showMonthDropdown
               showYearDropdown
@@ -248,7 +444,33 @@ export const OutboundTravelInsuranceForm = () => {
               minDate={new Date(currentYear - 15, currentMonth, currentDay)}
               maxDate={maxDate}
               filterDate={filterFutureMonths}
-            />
+            /> */}
+
+          <div className="flex flex-col">
+            <label htmlFor="">Estimate Departure Date</label>
+            <label htmlFor="">
+              ထွက်ခွာမည့်နေ့(ခန့်မှန်းခြေ){" "}
+              <span className="text-red-600">*</span>
+            </label>
+            <DatePicker
+  selected={dates.estimateDepartureDate}
+  onChange={(date) => {
+    // handleDateChange(date);
+
+    handleDateChange(date, "estimateDepartureDate");
+
+    setInsuredInfo({
+      ...insuredInfo,
+      estimateDepartureDate: format(date, "yyyy-MM-dd"),
+    });
+  }}
+  dateFormat="yyyy-MM-dd"
+  customInput={<CustomInput />}
+  showMonthDropdown
+  showYearDropdown
+  dropdownMode="select"
+  minDate={new Date()}
+/>
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Journey From</label>
@@ -261,6 +483,9 @@ export const OutboundTravelInsuranceForm = () => {
               value="MYANMAR"
               disabled
               type="text"
+              onChange={(e) =>
+                setInsuredInfo({ ...insuredInfo, journeyFrom: e.target.value })
+              }
             />
           </div>
           <div className="flex flex-col">
@@ -273,8 +498,17 @@ export const OutboundTravelInsuranceForm = () => {
               placeholder="SELECT ONE"
               name=""
               id=""
+              onChange={(e) =>
+                setInsuredInfo({ ...insuredInfo, journeyTo: e.target.value })
+              }
             >
               <option value="">SELECT ONE</option>
+              {Array.isArray(countries) &&
+                countries.map((country, index) => (
+                  <option key={index} value={country.countryName}>
+                    {country.countryName}
+                  </option>
+                ))}
             </select>
           </div>
           {/* // ------------------- 4th ------------------- */}
@@ -284,13 +518,18 @@ export const OutboundTravelInsuranceForm = () => {
               ပေါ်လစီစတင်မည့်နေ့ <span className="text-red-600">*</span>
             </label>
             <DatePicker
-              selected={startDate}
+              selected={dates.policyStartDate}
               onChange={(date) => {
-                if (filterFutureMonths(date)) {
-                  handleDateChange(date);
-                }
+                // if (filterFutureMonths(date)) {
+                //   handleDateChange(date);
+                // }
+                handleDateChange(date, "policyStartDate");
+                setInsuredInfo({
+                  ...insuredInfo,
+                  policyStartDate: format(date, "yyyy-MM-dd"),
+                });
               }}
-              dateFormat="dd-MM-yyyy"
+              dateFormat="yyyy-MM-dd"
               customInput={<CustomInput />}
               showMonthDropdown
               showYearDropdown
@@ -310,6 +549,9 @@ export const OutboundTravelInsuranceForm = () => {
               placeholder="SELECT ONE"
               name=""
               id=""
+              onChange={(e) =>
+                setInsuredInfo({ ...insuredInfo, coveragePlan: e.target.value })
+              }
             >
               <option value="">SELECT ONE</option>
               <option value="5">5 DAYS</option>
@@ -333,6 +575,9 @@ export const OutboundTravelInsuranceForm = () => {
               placeholder="SELECT ONE"
               name=""
               id=""
+              onChange={(e) =>
+                setInsuredInfo({ ...insuredInfo, packages: e.target.value })
+              }
             >
               <option value="">SELECT ONE</option>
               <option value="10000">USD 10,000</option>
@@ -353,15 +598,37 @@ export const OutboundTravelInsuranceForm = () => {
                 placeholder="SELECT ONE"
                 name=""
                 id=""
+                onChange={(e) =>
+                  setInsuredInfo({
+                    ...insuredInfo,
+                    insuredPhoneCode: e.target.value,
+                  })
+                }
               >
-                <option className="cols-span-1" value="">
+                {/* <option className="cols-span-1" value="">
                   SELECT
-                </option>
+                </option> */}
+                {Array.isArray(countries) &&
+                  countries.map((country, index) => (
+                    <option key={index} value={country.countryCode}>
+                      (+{country.countryCode}) {country.countryName}
+                    </option>
+                  ))}
               </select>
               <input
                 className="col-span-3 rounded-md p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                 placeholder="ENTER PHONE NUMBER"
                 type="text"
+                onChange={(e) =>
+                  setInsuredInfo({
+                    ...insuredInfo,
+                    insuredPhoneNumber:
+                      "(+" +
+                      insuredInfo.insuredPhoneCode +
+                      ")" +
+                      e.target.value,
+                  })
+                }
               />
             </div>
           </div>
@@ -375,13 +642,35 @@ export const OutboundTravelInsuranceForm = () => {
                 placeholder="SELECT ONE"
                 name=""
                 id=""
+                onChange={(e) =>
+                  setInsuredInfo({
+                    ...insuredInfo,
+                    foreignContactCode: e.target.value,
+                  })
+                }
               >
-                <option value="">SELECT</option>
+                {/* <option value="">SELECT</option> */}
+                {Array.isArray(countries) &&
+                  countries.map((country, index) => (
+                    <option key={index} value={country.countryCode}>
+                      (+{country.countryCode}) {country.countryName}
+                    </option>
+                  ))}
               </select>
               <input
                 className="col-span-3 rounded-md p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                 placeholder="ENTER PHONE NUMBER"
                 type="text"
+                onChange={(e) =>
+                  setInsuredInfo({
+                    ...insuredInfo,
+                    foreignContactNumber:
+                      "(+" +
+                      insuredInfo.foreignContactCode +
+                      ")" +
+                      e.target.value,
+                  })
+                }
               />
             </div>
           </div>
@@ -392,6 +681,9 @@ export const OutboundTravelInsuranceForm = () => {
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER YOUR FATHER NAME"
               type="text"
+              onChange={(e) =>
+                setInsuredInfo({ ...insuredInfo, fatherName: e.target.value })
+              }
             />
           </div>
 
@@ -401,8 +693,11 @@ export const OutboundTravelInsuranceForm = () => {
             <label htmlFor="">လူမျိုး</label>
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-              placeholder="ENTER YOUR FATHER NAME"
+              placeholder="ENTER YOUR RACE"
               type="text"
+              onChange={(e) =>
+                setInsuredInfo({ ...insuredInfo, race: e.target.value })
+              }
             />
           </div>
           <div className="flex flex-col">
@@ -410,8 +705,11 @@ export const OutboundTravelInsuranceForm = () => {
             <label htmlFor="">အလုပ်အကိုင်</label>
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-              placeholder="ENTER YOUR FATHER NAME"
+              placeholder="ENTER YOUR OCCUPATION"
               type="text"
+              onChange={(e) =>
+                setInsuredInfo({ ...insuredInfo, occupation: e.target.value })
+              }
             />
           </div>
           <div className="flex flex-col">
@@ -461,6 +759,9 @@ export const OutboundTravelInsuranceForm = () => {
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="Enter Email Address"
               type="text"
+              onChange={(e) =>
+                setInsuredInfo({ ...insuredInfo, insuredEmail: e.target.value })
+              }
             />
           </div>
           <div className="flex flex-col">
@@ -472,6 +773,12 @@ export const OutboundTravelInsuranceForm = () => {
               className="resize-none border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="..."
               rows="5"
+              onChange={(e) =>
+                setInsuredInfo({
+                  ...insuredInfo,
+                  insuredAddress: e.target.value,
+                })
+              }
             />
           </div>
           <div className="flex flex-col">
@@ -484,6 +791,12 @@ export const OutboundTravelInsuranceForm = () => {
               className="resize-none border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="..."
               rows="5"
+              onChange={(e) =>
+                setInsuredInfo({
+                  ...insuredInfo,
+                  insuredAddressAbroad: e.target.value,
+                })
+              }
             />
           </div>
           <div className="flex flex-col">
@@ -495,8 +808,20 @@ export const OutboundTravelInsuranceForm = () => {
               className="text-[#4A5056] border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               name=""
               id=""
+              onChange={(e) =>
+                setInsuredInfo({
+                  ...insuredInfo,
+                  destinationCountry: e.target.value,
+                })
+              }
             >
               <option value="">SELECT ONE</option>
+              {Array.isArray(countries) &&
+                countries.map((country, index) => (
+                  <option key={index} value={country.countryName}>
+                    {country.countryName}
+                  </option>
+                ))}
             </select>
           </div>
         </div>
@@ -517,6 +842,12 @@ export const OutboundTravelInsuranceForm = () => {
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                   placeholder="ENTER CHILD NAME"
                   type="text"
+                  onChange={(e) =>
+                    setInsuredInfo({
+                      ...insuredInfo,
+                      childName: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div className="flex flex-col">
@@ -525,18 +856,22 @@ export const OutboundTravelInsuranceForm = () => {
                   မွေးသက္ကရာဇ် <span className="text-red-600">*</span>
                 </label>
                 <DatePicker
-                  selected={startDate}
+                  selected={dates.childDOB}
                   onChange={(date) => {
-                    if (filterFutureMonths(date)) {
-                      handleDateChange(date);
-                    }
+                    // if (filterFutureMonths(date)) {
+                    //   handleDateChange(date);
+                    // }
+                    handleDateChange(date, "childDOB");
+                    setInsuredInfo({
+                      ...insuredInfo,
+                      childDOB: format(date, "yyyy-MM-dd"),
+                    });
                   }}
-                  dateFormat="dd-MM-yyyy"
+                  dateFormat="yyyy-MM-dd"
                   customInput={<CustomInput />}
                   showMonthDropdown
                   showYearDropdown
                   dropdownMode="select"
-                  minDate={new Date(currentYear - 15, currentMonth, currentDay)}
                   maxDate={maxDate}
                   filterDate={filterFutureMonths}
                 />
@@ -551,6 +886,12 @@ export const OutboundTravelInsuranceForm = () => {
                   placeholder="SELECT ONE"
                   name=""
                   id=""
+                  onChange={(e) =>
+                    setInsuredInfo({
+                      ...insuredInfo,
+                      childGender: e.target.value,
+                    })
+                  }
                 >
                   <option value="">SELECT ONE</option>
                   <option value="male">MALE</option>
@@ -566,6 +907,12 @@ export const OutboundTravelInsuranceForm = () => {
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                   placeholder="ENTER GUARDIANCE NAME"
                   type="text"
+                  onChange={(e) =>
+                    setInsuredInfo({
+                      ...insuredInfo,
+                      guardianceName: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div className="flex flex-col">
@@ -577,6 +924,12 @@ export const OutboundTravelInsuranceForm = () => {
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                   placeholder="ENTER RELATIONSHIP"
                   type="text"
+                  onChange={(e) =>
+                    setInsuredInfo({
+                      ...insuredInfo,
+                      childRelationship: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -600,6 +953,12 @@ export const OutboundTravelInsuranceForm = () => {
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER NAME"
               type="text"
+              onChange={(e) =>
+                setInsuredInfo({
+                  ...insuredInfo,
+                  beneficiaryName: e.target.value,
+                })
+              }
             />
           </div>
           <div className="flex flex-col">
@@ -608,18 +967,22 @@ export const OutboundTravelInsuranceForm = () => {
               မွေးသက္ကရာဇ် <span className="text-red-600">*</span>
             </label>
             <DatePicker
-              selected={startDate}
+              selected={dates.beneficiaryDOB}
               onChange={(date) => {
-                if (filterFutureMonths(date)) {
-                  handleDateChange(date);
-                }
+                // if (filterFutureMonths(date)) {
+                //   handleDateChange(date);
+                // }
+                handleDateChange(date, "beneficiaryDOB");
+                setInsuredInfo({
+                  ...insuredInfo,
+                  beneficiaryDOB: format(date, "yyyy-MM-dd"),
+                });
               }}
-              dateFormat="dd-MM-yyyy"
+              dateFormat="yyyy-MM-dd"
               customInput={<CustomInput />}
               showMonthDropdown
               showYearDropdown
               dropdownMode="select"
-              minDate={new Date(currentYear - 15, currentMonth, currentDay)}
               maxDate={maxDate}
               filterDate={filterFutureMonths}
             />
@@ -633,6 +996,12 @@ export const OutboundTravelInsuranceForm = () => {
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER RELATIONSHIP"
               type="text"
+              onChange={(e) =>
+                setInsuredInfo({
+                  ...insuredInfo,
+                  beneficiaryRelationship: e.target.value,
+                })
+              }
             />
           </div>
           <div className="flex flex-col">
@@ -647,15 +1016,37 @@ export const OutboundTravelInsuranceForm = () => {
                 placeholder="SELECT ONE"
                 name=""
                 id=""
+                onChange={(e) =>
+                  setInsuredInfo({
+                    ...insuredInfo,
+                    beneficiaryPhoneCode: e.target.value,
+                  })
+                }
               >
-                <option className="cols-span-1" value="">
+                {/* <option className="cols-span-1" value="">
                   SELECT
-                </option>
+                </option> */}
+                {Array.isArray(countries) &&
+                  countries.map((country, index) => (
+                    <option key={index} value={country.countryCode}>
+                      (+{country.countryCode}) {country.countryName}
+                    </option>
+                  ))}
               </select>
               <input
                 className="col-span-3 rounded-md p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                 placeholder="ENTER PHONE NUMBER"
                 type="text"
+                onChange={(e) =>
+                  setInsuredInfo({
+                    ...insuredInfo,
+                    beneficiaryPhoneNumber:
+                      "(+" +
+                      insuredInfo.beneficiaryPhoneCode +
+                      ")" +
+                      e.target.value,
+                  })
+                }
               />
             </div>
           </div>
@@ -666,6 +1057,12 @@ export const OutboundTravelInsuranceForm = () => {
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER NATIONAL IDENTIFICATION NUMBER"
               type="text"
+              onChange={(e) =>
+                setInsuredInfo({
+                  ...insuredInfo,
+                  beneficiaryNRC: e.target.value,
+                })
+              }
             />
           </div>
           <div className="flex flex-col">
@@ -675,6 +1072,12 @@ export const OutboundTravelInsuranceForm = () => {
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="Enter Email"
               type="text"
+              onChange={(e) =>
+                setInsuredInfo({
+                  ...insuredInfo,
+                  beneficiaryEmail: e.target.value,
+                })
+              }
             />
           </div>
           <div className="flex flex-col">
@@ -684,6 +1087,12 @@ export const OutboundTravelInsuranceForm = () => {
               className="resize-none border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="..."
               rows="5"
+              onChange={(e) =>
+                setInsuredInfo({
+                  ...insuredInfo,
+                  beneficiaryAddress: e.target.value,
+                })
+              }
             />
           </div>
         </div>
@@ -707,7 +1116,6 @@ export const OutboundTravelInsuranceForm = () => {
                 }
                 className="w-6 h-6 flex-none"
               />
-              {/* #FCF050 */}
               <div
                 className={`flex gap-x-1 items-center p-2 border-2 ${
                   insuredInfo.agentOption === "selfservice"
@@ -730,6 +1138,7 @@ export const OutboundTravelInsuranceForm = () => {
                   setInsuredInfo({
                     ...insuredInfo,
                     agentOption: e.target.value,
+                    hasAgent: true,
                   });
                   setIsModalOpen(true);
                 }}
@@ -757,6 +1166,7 @@ export const OutboundTravelInsuranceForm = () => {
                   setInsuredInfo({
                     ...insuredInfo,
                     agentOption: e.target.value,
+                    hasAgent: true,
                   });
                   setIsModalOpen(true);
                 }}
@@ -789,7 +1199,11 @@ export const OutboundTravelInsuranceForm = () => {
                 </label>
                 <input
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-                  placeholder="AGENT NAME"
+                  placeholder={
+                    insuredInfo.isValidated
+                      ? insuredInfo.agentName
+                      : "AGENT NAME"
+                  }
                   type="text"
                 />
               </div>
@@ -799,7 +1213,11 @@ export const OutboundTravelInsuranceForm = () => {
                 </label>
                 <input
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-                  placeholder="AGENT LICENSE NUMBER"
+                  placeholder={
+                    insuredInfo.isValidated
+                      ? insuredInfo.agentLicenseNumber
+                      : "AGENT LICENSE NUMBER"
+                  }
                   type="text"
                 />
               </div>
@@ -825,8 +1243,11 @@ export const OutboundTravelInsuranceForm = () => {
                 </label>
                 <input
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-                  placeholder="AGENT LICENSE NUMBER"
+                  placeholder={
+                    insuredInfo.isValidated ? "testing" : "AGENT LICENSE NUMBER"
+                  }
                   type="text"
+                  disabled
                 />
               </div>
               <div className="flex flex-col">
@@ -837,6 +1258,7 @@ export const OutboundTravelInsuranceForm = () => {
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                   placeholder=""
                   type="text"
+                  disabled
                 />
               </div>
               <div className="my-auto font-[500]">
@@ -856,8 +1278,10 @@ export const OutboundTravelInsuranceForm = () => {
         <input
           className="bg-[#214C9B] text-white px-6 py-2 rounded-sm"
           type="submit"
+          
           value="SUBMIT AND CONTINUE"
         />
+        {/* <button ></button> */}
       </form>
 
       <Modal
@@ -889,11 +1313,17 @@ export const OutboundTravelInsuranceForm = () => {
         {isModalOpen &&
           (insuredInfo.agentOption === "associationagent" ? (
             <div className="animate-fade-in">
-              <AssociationAgentForm />
+              <AssociationAgentForm
+                insuredInfo={insuredInfo}
+                setInsuredInfo={setInsuredInfo}
+              />
             </div>
           ) : (
             <div className="animate-fade-in">
-              <NormalAgentForm />
+              <NormalAgentForm
+                insuredInfo={insuredInfo}
+                setInsuredInfo={setInsuredInfo}
+              />
             </div>
           ))}
       </Modal>
