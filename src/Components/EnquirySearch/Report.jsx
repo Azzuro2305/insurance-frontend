@@ -7,9 +7,10 @@ const Report = () => {
           Inbound Travel Accident Insurance Purchase History
         </h1>
         <div className='xs2:overflow-x-scroll lg:overflow-hidden'>
+        <div className='xs2:overflow-x-scroll lg:overflow-hidden'>
         <table className='text-center w-full border border-gray-300'>
             <thead className=' bg-[#214C9B] text-white'>
-              <tr className='xs2:text-sm md:text-lg'>
+              <tr className='xs2:text-base text-lg'>
                 <th scope='col' className='px-2 py-3 font-normal border-r'>No.</th>
                 <th scope='col' className='px-2 py-3 font-normal border-r'>Insured Name</th>
                 <th scope='col' className='px-2 py-3 font-normal border-r'>Age</th>
