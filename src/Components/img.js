@@ -12,6 +12,8 @@ import mpu from '../assets/mpu.jpg';
 import okkyat from '../assets/okkyat.png';
 import unionpay from '../assets/unionpay.png';
 import visa from '../assets/visa.png';
+import menu from '../assets/menu.png';
+import cross from '../assets/menuCross.png';
 
 export const img = {
     cancle,
@@ -28,4 +30,6 @@ export const img = {
     okkyat,
     unionpay,
     visa,
+    menu,
+    cross,
 };

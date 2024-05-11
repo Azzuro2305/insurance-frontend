@@ -14,14 +14,14 @@ export const Home = () => {
     <>
         <Header />
         <main className="bg-[#F1F4F8] border-b-[1px] border-gray-400">
-          <section className="xs2:w-[300px] xs:w-[430px] sm:w-[540px] md:w-[930px] xl:w-[1150px] mt-[-30px] py-[50px] mx-auto">
+          <section className="xs2:w-[300px] xs:w-[440px] sm:w-[630px] md:w-[720px] mid:w-[960px] medium:w-[1150px] mid:mt-[-30px] mid:py-[50px] mx-auto">
           <BuyOption />
           </section>
             {/* <DownloadPDFButton />
-            <Enquiry/>
-            <Footer /> */}
             
-            {/* <PaymentInfo />
+            <Footer /> */}
+            {/* <Enquiry/>
+            <PaymentInfo />
             <PaymentOption /> */}
         </main>
         <Footer />

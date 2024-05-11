@@ -2,9 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export const AssociationAgentForm = ({ insuredInfo, setInsuredInfo }) => {
-
+  const [errors, setErrors] = useState({});
   const submitHandler = (e) => {
-
+    e.preventDefault();
+    const newError = {};
+    if (!insuredInfo.agentLicenseNumber || !insuredInfo.password){
+      newError.agentLicenseNumber = "This field is required."
+      newError.password = "This field is required."
+    }
+    setErrors(newError);
   }
 
   return (
@@ -29,6 +35,11 @@ export const AssociationAgentForm = ({ insuredInfo, setInsuredInfo }) => {
                 });
               }}
             />
+            {errors.agentLicenseNumber && (
+              <p className='text-red-500 font-semibold text-base mt-2'>
+                {errors.agentLicenseNumber}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col gap-y-1 mt-4">
@@ -47,6 +58,11 @@ export const AssociationAgentForm = ({ insuredInfo, setInsuredInfo }) => {
                 });
               }}
             />
+            {errors.password && (
+              <p className='text-red-500 font-semibold text-base mt-2'>
+                {errors.password}
+              </p>
+            )}
           </div>
 
           <input

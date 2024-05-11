@@ -2,14 +2,20 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export const NormalAgentForm = ( { insuredInfo, setInsuredInfo } ) => {
-
+  const [errors, setErrors] = useState({});
   const submitHandler = (e) => {
-
+    e.preventDefault();
+    const newError = {};
+    if (!insuredInfo.agentName || !insuredInfo.agentLicenseNumber) {
+      newError.agentName = "This field is required."
+      newError.agentLicenseNumber = "This field is required."
+    }
+    setErrors(newError);
   }
 
   return (
     <>
-      <div className="text-[#214C9B] bg-white rounded-md text-[14px] font-[500] py-4">
+      <div className="text-[#214C9B]  bg-white rounded-md text-[14px] font-[500] py-4">
         <h1 className="px-4 text-[18px]">Check Agent Information</h1>
         <hr className="border-t-1 mt-3 mb-6 border-[#DFE2E6]" />
         <form onSubmit={ submitHandler } className="px-4" action="">
@@ -31,6 +37,11 @@ export const NormalAgentForm = ( { insuredInfo, setInsuredInfo } ) => {
                 }
               }
             />
+            {errors.agentName && (
+              <p className='text-red-500 font-semibold text-base mt-2'>
+                {errors.agentName}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col gap-y-1 mt-4">
@@ -51,6 +62,11 @@ export const NormalAgentForm = ( { insuredInfo, setInsuredInfo } ) => {
                 }
               }
             />
+            {errors.agentLicenseNumber && (
+              <p className='text-red-500 font-semibold text-base mt-2'>
+                {errors.agentLicenseNumber}
+              </p>
+            )}
           </div>
 
           <input
