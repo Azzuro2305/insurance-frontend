@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import DatePicker from "react-datepicker";
 import Images from "../Images/Images";
 import { AssociationAgentForm } from "../AssociationAgentForm/AssociationAgentForm";
@@ -6,14 +6,21 @@ import { NormalAgentForm } from "../NormalAgentForm/NormalAgentForm";
 import Modal from "react-modal";
 import axios from "axios";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
+import InsuredInfoContext from './InsuredInfoContext';
+
 
 export const OutboundTravelInsuranceForm = () => {
+  const navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
   const [maxDate, setMaxDate] = useState(new Date());
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
   const currentDay = new Date().getDate();
+  const { insuredInfo, setInsuredInfo } = useContext(InsuredInfoContext);
+  const [ submitted, setSubmitted ] = useState(false);
+
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   Modal.setAppElement("#root");
@@ -22,67 +29,67 @@ export const OutboundTravelInsuranceForm = () => {
 
   const [countries, setCountries] = useState([]);
 
-  const [insuredInfo, setInsuredInfo] = useState({
-    // insured information
-    passportNumber: "",
-    passportIssuedDate: "",
-    passportIssuedCountry: "",
-    insuredName: "",
-    insuredDOB: "",
-    insuredGender: "",
-    insuredPhoneCode: "", // to bind with insuredPhoneNumber
-    insuredPhoneNumber: "",
-    foreignContactCode: "", // to bind with foreignContactNumber
-    foreignContactNumber: "",
-    fatherName: "",
-    race: "",
-    occupation: "",
-    maritalStatus: "single",
-    insuredEmail: "",
-    insuredAddress: "",
-    insuredAddressAbroad: "",
-    isChild: "",
-    destinationCountry: "",
+  // const [insuredInfo, setInsuredInfo] = useState({
+  //   // insured information
+  //   passportNumber: "",
+  //   passportIssuedDate: "",
+  //   passportIssuedCountry: "",
+  //   insuredName: "",
+  //   insuredDOB: "",
+  //   insuredGender: "",
+  //   insuredPhoneCode: "", // to bind with insuredPhoneNumber
+  //   insuredPhoneNumber: "",
+  //   foreignContactCode: "", // to bind with foreignContactNumber
+  //   foreignContactNumber: "",
+  //   fatherName: "",
+  //   race: "",
+  //   occupation: "",
+  //   maritalStatus: "single",
+  //   insuredEmail: "",
+  //   insuredAddress: "",
+  //   insuredAddressAbroad: "",
+  //   isChild: "",
+  //   destinationCountry: "",
 
-    // Proposal Form
-    estimateDepartureDate: "",
-    journeyTo: "",
-    journeyFrom: "MYANMAR", // default value is "MYANMAR"
-    policyStartDate: "",
-    coveragePlan: "",
-    packages: "",
+  //   // Proposal Form
+  //   estimateDepartureDate: "",
+  //   journeyTo: "",
+  //   journeyFrom: "MYANMAR", // default value is "MYANMAR"
+  //   policyStartDate: "",
+  //   coveragePlan: "",
+  //   packages: "",
 
-    // beneficiary Information
-    beneficiaryName: "",
-    beneficiaryDOB: "",
-    beneficiaryRelationship: "",
-    beneficiaryPhoneCode: "", // pass UUID to backend
-    beneficiaryPhoneNumber: "",
-    beneficiaryNRC: "",
-    beneficiaryEmail: "",
-    beneficiaryAddress: "",
+  //   // beneficiary Information
+  //   beneficiaryName: "",
+  //   beneficiaryDOB: "",
+  //   beneficiaryRelationship: "",
+  //   beneficiaryPhoneCode: "", // pass UUID to backend
+  //   beneficiaryPhoneNumber: "",
+  //   beneficiaryNRC: "",
+  //   beneficiaryEmail: "",
+  //   beneficiaryAddress: "",
 
-    // Child Information
-    childName: "",
-    childDOB: "",
-    childGender: "",
-    guardianceName: "",
-    childRelationship: "",
+  //   // Child Information
+  //   childName: "",
+  //   childDOB: "",
+  //   childGender: "",
+  //   guardianceName: "",
+  //   childRelationship: "",
 
-    // Agent Information
-    agentName: "",
-    agentPassword: "",
-    agentLicenseNumber: "",
+  //   // Agent Information
+  //   agentName: "",
+  //   agentPassword: "",
+  //   agentLicenseNumber: "",
 
-    // Child, Agent Check
-    hasChild: false,
-    hasAgent: false,
-    isValidated: false,
+  //   // Child, Agent Check
+  //   hasChild: false,
+  //   hasAgent: false,
+  //   isValidated: false,
 
-    // Additional Check only for frontend
-    buyOption: "foryourself",
-    agentOption: "selfservice",
-  });
+  //   // Additional Check only for frontend
+  //   buyOption: "foryourself",
+  //   agentOption: "selfservice",
+  // });
 
   const [dates, setDates] = useState({
     passportIssuedDate: null,
@@ -116,6 +123,8 @@ export const OutboundTravelInsuranceForm = () => {
   //   }
   // };
 
+  // console.log(countries);
+
   const handleDateChange = (date, key) => {
     setDates(prevDates => ({
       ...prevDates,
@@ -133,6 +142,9 @@ export const OutboundTravelInsuranceForm = () => {
   };
 
   //   ------------------- API (START) -------------------
+
+
+
   useEffect(() => {
     const fetchCountries = async () => {
       try {
@@ -147,25 +159,50 @@ export const OutboundTravelInsuranceForm = () => {
     fetchCountries();
   }, []);
 
-  const submitHandler = async (e) => {
-    // const registerUrl = "http://localhost:8080/insured-person";
-    e.preventDefault()
+  // const submitHandler = async (e) => {
+  //   // const registerUrl = "http://localhost:8080/insured-person";
+  //   e.preventDefault()
+  //   try {
+  //     const response = await axios.post("http://localhost:8080/insured-person", insuredInfo);
+  //     console.log(response.data);
+  //     console.log(insuredInfo);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+
+{/* <InsuredInfoContext.Provider value={setInsuredInfo}>
+  <OutboundTravelInsuranceForm />
+  <PaymentOption />
+</InsuredInfoContext.Provider> */}
+  
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setSubmitted(true);
     try {
-      const response = await axios.post("http://localhost:8080/insured-person", insuredInfo);
-      console.log(response.data);
-      console.log(insuredInfo);
-    } catch (error) {
-      console.error(error);
+      const response = await axios.post("http://localhost:8080/insured-person/calculate-premium", insuredInfo);
+      console.log(response.data.data.rate);
+      setInsuredInfo({
+        ...insuredInfo,
+        rate: response.data.data.rate,
+      });
+      navigate('/payment-option');
+      setSubmitted(false);
+      
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  console.log(countries);
-
   //   ------------------- API (END) -------------------
   return (
+    
     <>
       <form
-        onSubmit={ submitHandler }
+        onSubmit={ handleSubmit }
         action=""
         className="text-[#214C9B] bg-white text-[14px] font-[500] w-[1150px] mx-auto rounded-md shadow-lg py-12 px-8"
       >
@@ -176,9 +213,11 @@ export const OutboundTravelInsuranceForm = () => {
         <div className="grid grid-cols-3 gap-8 mt-4">
           <div className="flex flex-col">
             <label htmlFor="">Passport Number</label>
-            <label htmlFor="">
-              နိုင်ငံကူးလက်မှတ်အမှတ် <span className="text-red-600">*</span>
-            </label>
+            {insuredInfo.buyOption === 'mmk' && (
+              <label htmlFor="">
+                နိုင်ငံကူးလက်မှတ်အမှတ် <span className="text-red-600">*</span>
+              </label>
+            )}
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER YOUR PASSPORT NO"
@@ -190,13 +229,18 @@ export const OutboundTravelInsuranceForm = () => {
                 })
               }
             />
+            {submitted && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Passport Issued Date</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               နိုင်ငံကူးလက်မှတ်ထုတ်ပေးသည့်နေ့{" "}
               <span className="text-red-600">*</span>
             </label>
+            )}
             <DatePicker
               selected={dates.passportIssuedDate}
               onChange={(date) => {
@@ -218,65 +262,18 @@ export const OutboundTravelInsuranceForm = () => {
               maxDate={maxDate}
               filterDate={filterFutureMonths}
             />
-
-{/* <DatePicker
-  selected={dates.estimateDeparture}
-  onChange={(date) => {
-    // handleDateChange(date);
-
-    handleDateChange(date, "estimateDepartureDate");
-
-    setInsuredInfo({
-      ...insuredInfo,
-      estimateDepartureDate: format(date, "yyyy-MM-dd"),
-    });
-  }}
-  dateFormat="yyyy-MM-dd"
-  customInput={<CustomInput />}
-  showMonthDropdown
-  showYearDropdown
-  dropdownMode="select"
-  // minDate={new Date()}
-/> */}
-
-
-
-
-
-            {/* <DatePicker
-  selected={startDate}
-  onChange={(date) => {
-	if (filterFutureMonths(date)) {
-	  handleDateChange(date);
-	}
-  }}
-  dateFormat="yyyy-MM-dd"
-  customInput={<CustomInput />}
-  renderMonthDropdown={(props) => <CustomMonthDropdown {...props} />}
-  showMonthDropdown
-  showYearDropdown
-  dropdownMode="select"
-  minDate={new Date(currentYear - 15, currentMonth, currentDay)}
-  maxDate={maxDate}
-  filterDate={filterFutureMonths}
-/> */}
-            {/* <DatePicker
-  selected={startDate}
-  onChange={handleDateChange}
-  dateFormat="yyyy-MM-dd"
-  customInput={<CustomInput />}
-  renderMonthDropdown={(props) => <CustomMonthDropdown {...props} />}
-  showMonthDropdown
-  showYearDropdown
-  dropdownMode="select"
-/> */}
+                        {submitted && !insuredInfo.passportIssuedDate && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Passport Issued Country</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               နိုင်ငံကူးလက်မှတ်ထုတ်ပေးသည့်နိုင်ငံ{" "}
               <span className="text-red-600">*</span>
             </label>
+            )}
             <select
               className="text-[#4A5056] border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               name=""
@@ -291,11 +288,14 @@ export const OutboundTravelInsuranceForm = () => {
               <option value="">SELECT ONE</option>
               {Array.isArray(countries) &&
                 countries.map((country, index) => (
-                  <option key={index} value={country.countryID}>
+                  <option key={index} value={country.id}>
                     {country.countryName}
                   </option>
                 ))}
             </select>
+            {submitted && !insuredInfo.passportIssuedCountry && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
         </div>
         <hr className="border-t-1 my-6 border-[#CFD4D9]" />
@@ -349,10 +349,12 @@ export const OutboundTravelInsuranceForm = () => {
           {/* // ------------------- 2nd ------------------- */}
           <div className="flex flex-col">
             <label htmlFor="">Name (as per passport)</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               အမည်(နိုင်ငံကူးလက်မှတ်ပါအမည်){" "}
               <span className="text-red-600">*</span>
             </label>
+            )}
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER INSURED NAME"
@@ -361,21 +363,18 @@ export const OutboundTravelInsuranceForm = () => {
                 setInsuredInfo({ ...insuredInfo, insuredName: e.target.value })
               }
             />
+                        {submitted && !insuredInfo.insuredName && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Date of Birth (as per passport)</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               မွေးသက္ကရာဇ်(နိုင်ငံကူးလက်မှတ်ပါမွေးသက္ကရာဇ်){" "}
               <span className="text-red-600">*</span>
             </label>
-            {/* <input
-              className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-              placeholder="yyyy-MM-dd"
-              type="text"
-              onChange={(e) =>
-                setInsuredInfo({ ...insuredInfo, insuredDOB: e.target.value })
-              }
-            /> */}
+            )}
             <DatePicker
               selected={dates.insuredDOB}
               onChange={(date) => {
@@ -396,13 +395,18 @@ export const OutboundTravelInsuranceForm = () => {
               maxDate={maxDate}
               filterDate={filterFutureMonths}
             />
+                        {submitted && !insuredInfo.insuredDOB && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Gender (as per passport)</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               ကျား/မ(နိုင်ငံကူးလက်မှတ်ပါ){" "}
               <span className="text-red-600">*</span>
             </label>
+            )}
             <select
               className="text-[#4A5056] border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="SELECT ONE"
@@ -419,39 +423,21 @@ export const OutboundTravelInsuranceForm = () => {
               <option value="male">MALE</option>
               <option value="female">FEMALE</option>
             </select>
+            {submitted && !insuredInfo.insuredGender && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
 
           {/* // ------------------- 3rd ------------------- */}
 
-
-          {/* <DatePicker
-              selected={dates.passportIssuedDate}
-              onChange={(date) => {
-                // if (filterFutureMonths(date)) {
-                //   handleDateChange(date);
-                // }
-                handleDateChange(date, "passportIssuedDate");
-                setInsuredInfo({
-                  ...insuredInfo,
-                  passportIssuedDate: format(date, "yyyy-MM-dd"),
-                });
-              }}
-              dateFormat="yyyy-MM-dd"
-              customInput={<CustomInput />}
-              showMonthDropdown
-              showYearDropdown
-              dropdownMode="select"
-              minDate={new Date(currentYear - 15, currentMonth, currentDay)}
-              maxDate={maxDate}
-              filterDate={filterFutureMonths}
-            /> */}
-
           <div className="flex flex-col">
             <label htmlFor="">Estimate Departure Date</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               ထွက်ခွာမည့်နေ့(ခန့်မှန်းခြေ){" "}
               <span className="text-red-600">*</span>
             </label>
+            )}
             <DatePicker
   selected={dates.estimateDepartureDate}
   onChange={(date) => {
@@ -471,12 +457,17 @@ export const OutboundTravelInsuranceForm = () => {
   dropdownMode="select"
   minDate={new Date()}
 />
+{submitted && !insuredInfo.estimateDepartureDate && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Journey From</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               ထွက်ခွာမည့်နိုင်ငံ <span className="text-red-600">*</span>
             </label>
+            )}
             <input
               className="border-2 bg-[#EAECEF] border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD] text-[#4b5055] placeholder-[#4B5055]"
               placeholder="MYANMAR"
@@ -490,9 +481,11 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Journey To</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               ဆိုက်ရောက်မည့်နိုင်ငံ <span className="text-red-600">*</span>
             </label>
+            )}
             <select
               className="text-[#4A5056] border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="SELECT ONE"
@@ -510,13 +503,21 @@ export const OutboundTravelInsuranceForm = () => {
                   </option>
                 ))}
             </select>
+            {submitted && !insuredInfo.journeyTo && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
+
+
+          
           {/* // ------------------- 4th ------------------- */}
           <div className="flex flex-col">
             <label htmlFor="">Policy Start Date</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               ပေါ်လစီစတင်မည့်နေ့ <span className="text-red-600">*</span>
             </label>
+            )}
             <DatePicker
               selected={dates.policyStartDate}
               onChange={(date) => {
@@ -534,16 +535,20 @@ export const OutboundTravelInsuranceForm = () => {
               showMonthDropdown
               showYearDropdown
               dropdownMode="select"
-              minDate={new Date(currentYear - 15, currentMonth, currentDay)}
-              maxDate={maxDate}
-              filterDate={filterFutureMonths}
+              minDate={new Date()}
+              // filterDate={filterFutureMonths}
             />
+                        {submitted && !insuredInfo.policyStartDate && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Coverage Plan</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               အာမခံသက်တမ်း <span className="text-red-600">*</span>
             </label>
+            )}
             <select
               className="text-[#4A5056] border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="SELECT ONE"
@@ -564,12 +569,17 @@ export const OutboundTravelInsuranceForm = () => {
               <option value="150">150 DAYS</option>
               <option value="180">180 DAYS</option>
             </select>
+            {submitted && !insuredInfo.coveragePlan && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Packages</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               ပက်ကေ့ချ် <span className="text-red-600">*</span>
             </label>
+            )}
             <select
               className="text-[#4A5056] border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="SELECT ONE"
@@ -579,18 +589,35 @@ export const OutboundTravelInsuranceForm = () => {
                 setInsuredInfo({ ...insuredInfo, packages: e.target.value })
               }
             >
+              {insuredInfo.currency === 'USD' ? (
+            <>
               <option value="">SELECT ONE</option>
               <option value="10000">USD 10,000</option>
               <option value="30000">USD 30,000</option>
               <option value="50000">USD 50,000</option>
+            </>
+          ) : (
+            <>
+              {/* Replace with the options for 'mmk' */}
+              <option value="">SELECT ONE</option>
+              <option value="30000000">MMK 30,000,000</option>
+              <option value="90000000">MMK 90,000,000</option>
+              <option value="150000000">MMK 150,000,000</option>
+            </>
+          )}
             </select>
+            {submitted && !insuredInfo.coveragePlan && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           {/* // ------------------- 5th ------------------- */}
           <div className="flex flex-col">
             <label htmlFor="">Insured's Contact Phone Number</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               ဆက်သွယ်ရမည့်ဖုန်းနံပါတ် <span className="text-red-600">*</span>
             </label>
+            )}
 
             <div className="grid grid-cols-4 border-2 mt-2 border-gray-[#CFD4D9] rounded-md">
               <select
@@ -631,11 +658,15 @@ export const OutboundTravelInsuranceForm = () => {
                 }
               />
             </div>
+            {submitted && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Foreign Contact Number</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">ဆက်သွယ်ရမည့်နိုင်ငံခြားဖုန်းနံပါတ်</label>
-
+            )}
             <div className="grid grid-cols-4 border-2 mt-2 border-gray-[#CFD4D9] rounded-md">
               <select
                 className="text-[#4A5056] rounded-md p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
@@ -676,7 +707,9 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Father's Name</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">ဖခင်အမည်</label>
+            )}
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER YOUR FATHER NAME"
@@ -690,7 +723,9 @@ export const OutboundTravelInsuranceForm = () => {
           {/* // ------------------- 6th ------------------- */}
           <div className="flex flex-col">
             <label htmlFor="">Race</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">လူမျိုး</label>
+            )}
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER YOUR RACE"
@@ -702,7 +737,9 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Occupation</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">အလုပ်အကိုင်</label>
+            )}
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER YOUR OCCUPATION"
@@ -714,7 +751,9 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Marital Status</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">အိမ်ထောင်ရှိ/မရှိ</label>
+            )}
             <div className="flex items-center gap-x-4 mt-2">
               <div className="flex gap-x-2">
                 <input
@@ -754,7 +793,9 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Insured's Email Address</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">အီးမေးလ်လိပ်စာ</label>
+            )}
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="Enter Email Address"
@@ -766,9 +807,11 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Address in Myanmar</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               မြန်မာနိုင်ငံရှိနေရပ်လိပ်စာ (Max: 250 Char)
             </label>
+            )}
             <textarea
               className="resize-none border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="..."
@@ -783,10 +826,12 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Address Abroad</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               ဆိုက်ရောက်မည့်နိုင်ငံနေရပ်လိပ်စာ (Max: 250 Char){" "}
               <span className="text-red-600">*</span>
             </label>
+            )}
             <textarea
               className="resize-none border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="..."
@@ -798,12 +843,17 @@ export const OutboundTravelInsuranceForm = () => {
                 })
               }
             />
+                        {submitted && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Destination Country</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               ဆိုက်ရောက်မည့်နိုင်ငံ <span className="text-red-600">*</span>
             </label>
+            )}
             <select
               className="text-[#4A5056] border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               name=""
@@ -823,6 +873,9 @@ export const OutboundTravelInsuranceForm = () => {
                   </option>
                 ))}
             </select>
+            {submitted && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
         </div>
 
@@ -835,9 +888,11 @@ export const OutboundTravelInsuranceForm = () => {
             <div className="grid grid-cols-3 gap-8 mt-4">
               <div className="flex flex-col">
                 <label htmlFor="">Child Name</label>
+                {insuredInfo.buyOption === 'mmk' && (
                 <label htmlFor="">
                   ကလေးအမည် *<span className="text-red-600">*</span>
                 </label>
+                )}
                 <input
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                   placeholder="ENTER CHILD NAME"
@@ -849,12 +904,17 @@ export const OutboundTravelInsuranceForm = () => {
                     })
                   }
                 />
+                            {submitted && insuredInfo.hasChild && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Date of Birth</label>
+                {insuredInfo.buyOption === 'mmk' && (
                 <label htmlFor="">
                   မွေးသက္ကရာဇ် <span className="text-red-600">*</span>
                 </label>
+                )}
                 <DatePicker
                   selected={dates.childDOB}
                   onChange={(date) => {
@@ -875,12 +935,17 @@ export const OutboundTravelInsuranceForm = () => {
                   maxDate={maxDate}
                   filterDate={filterFutureMonths}
                 />
+                                            {submitted && insuredInfo.hasChild && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Gender</label>
+                {insuredInfo.buyOption === 'mmk' && (
                 <label htmlFor="">
                   ကျား/မ <span className="text-red-600">*</span>
                 </label>
+                )}
                 <select
                   className="text-[#4A5056] border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                   placeholder="SELECT ONE"
@@ -897,12 +962,17 @@ export const OutboundTravelInsuranceForm = () => {
                   <option value="male">MALE</option>
                   <option value="female">FEMALE</option>
                 </select>
+                {submitted && insuredInfo.hasChild && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Guardiance Name</label>
+                {insuredInfo.buyOption === 'mmk' && (
                 <label htmlFor="">
                   အုပ်ထိန်းသူအမည် <span className="text-red-600">*</span>
                 </label>
+                )}
                 <input
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                   placeholder="ENTER GUARDIANCE NAME"
@@ -914,12 +984,17 @@ export const OutboundTravelInsuranceForm = () => {
                     })
                   }
                 />
+                                            {submitted && insuredInfo.hasChild && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Relationship</label>
+                {insuredInfo.buyOption === 'mmk' && (
                 <label htmlFor="">
                   တော်စပ်ပုံ <span className="text-red-600">*</span>
                 </label>
+                )}
                 <input
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                   placeholder="ENTER RELATIONSHIP"
@@ -931,6 +1006,9 @@ export const OutboundTravelInsuranceForm = () => {
                     })
                   }
                 />
+                                            {submitted && insuredInfo.hasChild && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
               </div>
             </div>
           </div>
@@ -946,9 +1024,11 @@ export const OutboundTravelInsuranceForm = () => {
         <div className="grid grid-cols-3 gap-8 mt-4">
           <div className="flex flex-col">
             <label htmlFor="">Name</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               အမည် <span className="text-red-600">*</span>
             </label>
+            )}
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER NAME"
@@ -960,12 +1040,17 @@ export const OutboundTravelInsuranceForm = () => {
                 })
               }
             />
+                                        {submitted && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Date of Birth</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               မွေးသက္ကရာဇ် <span className="text-red-600">*</span>
             </label>
+            )}
             <DatePicker
               selected={dates.beneficiaryDOB}
               onChange={(date) => {
@@ -986,12 +1071,17 @@ export const OutboundTravelInsuranceForm = () => {
               maxDate={maxDate}
               filterDate={filterFutureMonths}
             />
+                                                    {submitted && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Relationship</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               တော်စပ်ပုံ <span className="text-red-600">*</span>
             </label>
+            )}
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER RELATIONSHIP"
@@ -1003,12 +1093,17 @@ export const OutboundTravelInsuranceForm = () => {
                 })
               }
             />
+                                                    {submitted && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Contact Phone Number</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">
               ဆက်သွယ်ရမည့်ဖုန်းနံပါတ် <span className="text-red-600">*</span>
             </label>
+            )}
 
             <div className="grid grid-cols-4 border-2 mt-2 border-gray-[#CFD4D9] rounded-md">
               <select
@@ -1049,10 +1144,15 @@ export const OutboundTravelInsuranceForm = () => {
                 }
               />
             </div>
+            {submitted && !insuredInfo.passportNumber && (
+              <div className="text-red-600 mt-2">This field is required.</div>
+            )}
           </div>
           <div className="flex flex-col">
             <label htmlFor="">National Identificaiton Number</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">နိုင်ငံသားစိစစ်ရေးကတ်ပြားအမှတ်</label>
+            )}
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="ENTER NATIONAL IDENTIFICATION NUMBER"
@@ -1067,7 +1167,9 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Email</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">အီးမေးလ်လိပ်စာ</label>
+            )}
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="Enter Email"
@@ -1082,7 +1184,9 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Address</label>
+            {insuredInfo.buyOption === 'mmk' && (
             <label htmlFor="">နေရပ်လိပ်စာ(Max: 250 Char)</label>
+            )}
             <textarea
               className="resize-none border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="..."
@@ -1107,18 +1211,18 @@ export const OutboundTravelInsuranceForm = () => {
                 id="selfservice"
                 name="agentoption"
                 value="selfservice"
-                checked={insuredInfo.agentOption === "selfservice"}
+                checked={insuredInfo.agentType === "selfservice"}
                 onChange={(e) =>
                   setInsuredInfo({
                     ...insuredInfo,
-                    agentOption: e.target.value,
+                    agentType: e.target.value,
                   })
                 }
                 className="w-6 h-6 flex-none"
               />
               <div
                 className={`flex gap-x-1 items-center p-2 border-2 ${
-                  insuredInfo.agentOption === "selfservice"
+                  insuredInfo.agentType === "selfservice"
                     ? "border-[#FCF050]"
                     : "border-[#DDDDDD]"
                 } bg-white`}
@@ -1133,11 +1237,12 @@ export const OutboundTravelInsuranceForm = () => {
                 id="normalagent"
                 name="agentoption"
                 value="normalagent"
-                checked={insuredInfo.agentOption === "normalagent"}
+                checked={insuredInfo.agentType === "normalagent"}
                 onChange={(e) => {
                   setInsuredInfo({
                     ...insuredInfo,
-                    agentOption: e.target.value,
+                    agentType: e.target.value,
+                    isValidated: false,
                     hasAgent: true,
                   });
                   setIsModalOpen(true);
@@ -1161,11 +1266,12 @@ export const OutboundTravelInsuranceForm = () => {
                 id="associationagent"
                 name="agentoption"
                 value="associationagent"
-                checked={insuredInfo.agentOption === "associationagent"}
+                checked={insuredInfo.agentType === "associationagent"}
                 onChange={(e) => {
                   setInsuredInfo({
                     ...insuredInfo,
-                    agentOption: e.target.value,
+                    agentType: e.target.value,
+                    isValidated: false,
                     hasAgent: true,
                   });
                   setIsModalOpen(true);
@@ -1174,7 +1280,7 @@ export const OutboundTravelInsuranceForm = () => {
               />
               <div
                 className={`flex gap-x-1 items-center p-2 border-2 ${
-                  insuredInfo.agentOption === "associationagent"
+                  insuredInfo.agentType === "associationagent"
                     ? "border-[#FCF050]"
                     : "border-[#DDDDDD]"
                 } bg-white`}
@@ -1191,7 +1297,7 @@ export const OutboundTravelInsuranceForm = () => {
             </div>
           </div>
 
-          {insuredInfo.agentOption === "normalagent" && (
+          {insuredInfo.agentType === "normalagent" && (
             <div className="grid grid-cols-3 gap-x-8 mt-4">
               <div className="flex flex-col">
                 <label htmlFor="">
@@ -1204,7 +1310,9 @@ export const OutboundTravelInsuranceForm = () => {
                       ? insuredInfo.agentName
                       : "AGENT NAME"
                   }
+                  value={insuredInfo.isValidated ? insuredInfo.agentName : ""}
                   type="text"
+                  disabled
                 />
               </div>
               <div className="flex flex-col">
@@ -1215,10 +1323,12 @@ export const OutboundTravelInsuranceForm = () => {
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                   placeholder={
                     insuredInfo.isValidated
-                      ? insuredInfo.agentLicenseNumber
+                      ? insuredInfo.agentLicense
                       : "AGENT LICENSE NUMBER"
                   }
+                  value={insuredInfo.isValidated ? insuredInfo.agentLicense : ""}
                   type="text"
+                  disabled
                 />
               </div>
               <div className="my-auto font-[500]">
@@ -1235,7 +1345,7 @@ export const OutboundTravelInsuranceForm = () => {
             </div>
           )}
 
-          {insuredInfo.agentOption === "associationagent" && (
+          {insuredInfo.agentType === "associationagent" && (
             <div className="grid grid-cols-3 gap-x-8 mt-4">
               <div className="flex flex-col">
                 <label htmlFor="">
@@ -1246,6 +1356,7 @@ export const OutboundTravelInsuranceForm = () => {
                   placeholder={
                     insuredInfo.isValidated ? "testing" : "AGENT LICENSE NUMBER"
                   }
+                  value={insuredInfo.isValidated ? insuredInfo.agentLicense : ""}
                   type="text"
                   disabled
                 />
@@ -1258,6 +1369,7 @@ export const OutboundTravelInsuranceForm = () => {
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                   placeholder=""
                   type="text"
+                  value={insuredInfo.isValidated ? insuredInfo.agentName : ""}
                   disabled
                 />
               </div>
@@ -1278,8 +1390,8 @@ export const OutboundTravelInsuranceForm = () => {
         <input
           className="bg-[#214C9B] text-white px-6 py-2 rounded-sm"
           type="submit"
-          
           value="SUBMIT AND CONTINUE"
+          // onClick={ handleSubmit }
         />
         {/* <button ></button> */}
       </form>
@@ -1311,7 +1423,7 @@ export const OutboundTravelInsuranceForm = () => {
           X
         </button>
         {isModalOpen &&
-          (insuredInfo.agentOption === "associationagent" ? (
+          (insuredInfo.agentType === "associationagent" ? (
             <div className="animate-fade-in">
               <AssociationAgentForm
                 insuredInfo={insuredInfo}

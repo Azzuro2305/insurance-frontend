@@ -2,10 +2,44 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export const AssociationAgentForm = ({ insuredInfo, setInsuredInfo }) => {
+  const [ submitted, setSubmitted ] = useState(false);
+  const [ agentInfo, setAgentInfo ] = useState({
+    agentName: "",
+    agentLicense: "",
+    agentPassword: "",
+    agentType: insuredInfo.agentType
+  });
 
-  const submitHandler = (e) => {
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    setSubmitted(true);
+    try {
+      const response = await axios.post("http://localhost:8080/agent/validate", agentInfo);
+      console.log(response.data);
+      setInsuredInfo({
+        ...insuredInfo,
+        isValidated: response.data.data.valid,
+        insuredName: response.data.data.agentName
+      });
+      AgentInfo({
+        ...agentInfo,
+        agentName: "",
+        agentLicense: "",
+        agentPassword: "",
+      })
+    }
+    catch (err) {
+      console.error(err);
+    }
+  };
 
-  }
+  console.log(agentInfo);
+//   console.log(insuredInfo);
+//   console.log(submitted);
+
+//   console.log('submitted:', submitted);
+// console.log('insuredInfo.isValidated:', insuredInfo.isValidated);
+// console.log('insuredInfo.agentLicenseNumber:', insuredInfo.agentLicenseNumber);
 
   return (
     <>
@@ -13,6 +47,11 @@ export const AssociationAgentForm = ({ insuredInfo, setInsuredInfo }) => {
         <h1 className="px-4 text-[18px]">Check Agent Information</h1>
         <hr className="border-t-1 mt-3 mb-6 border-[#DFE2E6]" />
         <form onSubmit={ submitHandler } className="px-4" action="">
+          {
+            insuredInfo.isValidated && (
+              <div className="text-green-600 text-center mt-2">Agent is validated.</div>
+            )
+          }
           <div className="flex flex-col gap-y-1">
             <label htmlFor="agentlicensenumber">
               Agent License Number <span className="text-red-600">*</span>
@@ -25,10 +64,23 @@ export const AssociationAgentForm = ({ insuredInfo, setInsuredInfo }) => {
               onChange={(e) => {
                 setInsuredInfo({
                   ...insuredInfo,
-                  agentLicenseNumber: e.target.value,
-                });
+                  agentLicense: e.target.value,
+                  agentName: e.target.value,
+                },
+                setAgentInfo({
+                  ...agentInfo,
+                  agentLicense: e.target.value,
+                })
+              );
               }}
             />
+            {
+  submitted && insuredInfo.agentLicense && !insuredInfo.isValidated ? (
+    <div className="text-red-600 mt-2">Please check again your "Agent License Number" and "Password"</div>
+  ) : submitted && !insuredInfo.agentLicense && !insuredInfo.isValidated ? (
+    <div className="text-red-600 mt-2">This field is required.</div>
+  ) : null
+}
           </div>
 
           <div className="flex flex-col gap-y-1 mt-4">
@@ -43,10 +95,22 @@ export const AssociationAgentForm = ({ insuredInfo, setInsuredInfo }) => {
               onChange={(e) => {
                 setInsuredInfo({
                   ...insuredInfo,
-                  password: e.target.value,
-                });
+                  agentPassword: e.target.value,
+                },
+                setAgentInfo({
+                  ...agentInfo,
+                  agentPassword: e.target.value,
+                })
+              );
               }}
             />
+{
+  submitted && insuredInfo.agentPassword && !insuredInfo.isValidated ? (
+    <div className="text-red-600 mt-2">Please check again your "Agent License Number" and "Password"</div>
+  ) : submitted && !insuredInfo.agentPassword && !insuredInfo.isValidated ? (
+    <div className="text-red-600 mt-2">This field is required.</div>
+  ) : null
+}
           </div>
 
           <input

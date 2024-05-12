@@ -1,6 +1,7 @@
 import React from 'react'
+import { DownloadPDFButton } from '../InsuranceForm/DownloadPDFButton' 
 
-const Report = () => {
+const Report = ({ searchResult, setSearchResult }) => {
   return (
     <div>
         <h1 className=' text-xl text-[#214C9B] font-[630] mb-4 tracking-tight'>
@@ -19,15 +20,20 @@ const Report = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className='border-b text-[#214C9B]'>
-                <td className='py-5 border-r'>1</td>
-                <td className=' border-r'>Name</td>
-                <td className=' border-r'>23</td>
-                <td className=' border-r'>09-9999999</td>
-                <td className=' border-r'>30</td>
-                <td className=' border-r'>30</td>
-                <td><button className='bg-[#214C9B] text-white px-8 py-1 rounded-[3px] hover:bg-white hover:border-[#214C9B] border hover:text-[#214C9B] transition-all duration-300'>Download</button></td>
-              </tr>
+
+              {searchResult.map((result, index) => (
+  <tr key={index} className='border-b text-[#214C9B]'>
+    <td className='py-5 border-r'>{index + 1}</td>
+    <td className=' border-r'>{result.insuredName}</td>
+    <td className=' border-r'>{result.insuredAge}</td>
+    <td className=' border-r'>{result.insuredPhoneNumber}</td>
+    <td className=' border-r'>{result.coveragePlan}</td>
+    <td className=' border-r'>{result.rate}</td>
+    <td>
+      <DownloadPDFButton data={result} />
+    </td>
+  </tr>
+))}
             </tbody>
         </table>
     </div>
@@ -35,3 +41,5 @@ const Report = () => {
 }
 
 export default Report
+
+
