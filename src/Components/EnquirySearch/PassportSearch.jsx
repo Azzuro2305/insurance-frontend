@@ -30,7 +30,7 @@ const PassportSearch = ({ searchResult, setSearchResult, submitted, setSubmitted
           setError(newError);
         } else {
           try {
-            const response = await axios.get(`http://localhost:8080/insured-person?passportNumber=${data.passportNum}&passportIssuedCountry=${"cb742412-bdde-406c-b08e-760f4adc4de0"}`);
+            const response = await axios.get(`http://localhost:8080/insured-person?passportNumber=${data.passportNum}&passportIssuedCountry=${data.country}`);
             setSearchResult(response.data.data);
             console.log(response.data);
           } catch (err) {

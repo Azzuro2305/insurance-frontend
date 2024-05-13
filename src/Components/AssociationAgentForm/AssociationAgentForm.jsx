@@ -15,11 +15,11 @@ export const AssociationAgentForm = ({ insuredInfo, setInsuredInfo }) => {
     setSubmitted(true);
     try {
       const response = await axios.post("http://localhost:8080/agent/validate", agentInfo);
-      console.log(response.data);
+      console.log(response.data.data.agentName);
       setInsuredInfo({
         ...insuredInfo,
         isValidated: response.data.data.valid,
-        insuredName: response.data.data.agentName
+        agentName: response.data.data.agentName
       });
       AgentInfo({
         ...agentInfo,
@@ -32,6 +32,8 @@ export const AssociationAgentForm = ({ insuredInfo, setInsuredInfo }) => {
       console.error(err);
     }
   };
+
+  console.log(insuredInfo);
 
   console.log(agentInfo);
 //   console.log(insuredInfo);
@@ -64,8 +66,7 @@ export const AssociationAgentForm = ({ insuredInfo, setInsuredInfo }) => {
               onChange={(e) => {
                 setInsuredInfo({
                   ...insuredInfo,
-                  agentLicense: e.target.value,
-                  agentName: e.target.value,
+                  agentLicenseNumber: e.target.value,
                 },
                 setAgentInfo({
                   ...agentInfo,

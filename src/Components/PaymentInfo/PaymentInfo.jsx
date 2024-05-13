@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import InsuredInfoContext from '../InsuranceForm/InsuredInfoContext'
+import { useNavigate } from "react-router-dom";
 
 export const PaymentInfo = () => {
   const [paymentData, setPaymentData] = useState([]);
@@ -8,6 +9,7 @@ export const PaymentInfo = () => {
   const [insuredData, setInsuredData] = useState([]);
   const [beneficiaryData, setBeneficiaryData] = useState([]);
   const { insuredInfo, setInsuredInfo } = useContext(InsuredInfoContext);
+  const navigate = useNavigate();
 
   // const location = useLocation();
   // const insuredInfo = location.state.insuredInfo;
@@ -25,6 +27,8 @@ export const PaymentInfo = () => {
       const response = await axios.post("http://localhost:8080/insured-person", insuredInfo);
       console.log(response.data);
       console.log(insuredInfo);
+      navigate('/')
+
     } catch (error) {
       console.error(error);
     }
@@ -106,7 +110,7 @@ export const PaymentInfo = () => {
                   Passport Issued Country <br />
                   နိုင်ငံကူးလက်မှတ်ထုတ်ပေးသည့်နိုင်ငံ
                 </td>
-                <td className='xs2:px-2 md:px-4 uppercase'>{ insuredInfo.passportIssuedCountry }</td>
+                <td className='xs2:px-2 md:px-4 uppercase'>{ insuredInfo.passportCountry }</td>
               </tr>
             </tbody>
           </table>

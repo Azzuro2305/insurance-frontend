@@ -213,7 +213,7 @@ export const OutboundTravelInsuranceForm = () => {
         <div className="grid grid-cols-3 gap-8 mt-4">
           <div className="flex flex-col">
             <label htmlFor="">Passport Number</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
               <label htmlFor="">
                 နိုင်ငံကူးလက်မှတ်အမှတ် <span className="text-red-600">*</span>
               </label>
@@ -235,7 +235,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Passport Issued Date</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               နိုင်ငံကူးလက်မှတ်ထုတ်ပေးသည့်နေ့{" "}
               <span className="text-red-600">*</span>
@@ -268,7 +268,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Passport Issued Country</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               နိုင်ငံကူးလက်မှတ်ထုတ်ပေးသည့်နိုင်ငံ{" "}
               <span className="text-red-600">*</span>
@@ -282,6 +282,7 @@ export const OutboundTravelInsuranceForm = () => {
                 setInsuredInfo({
                   ...insuredInfo,
                   passportIssuedCountry: e.target.value,
+                  passportCountry: "MYANMAR"
                 })
               }
             >
@@ -349,7 +350,7 @@ export const OutboundTravelInsuranceForm = () => {
           {/* // ------------------- 2nd ------------------- */}
           <div className="flex flex-col">
             <label htmlFor="">Name (as per passport)</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               အမည်(နိုင်ငံကူးလက်မှတ်ပါအမည်){" "}
               <span className="text-red-600">*</span>
@@ -369,7 +370,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Date of Birth (as per passport)</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               မွေးသက္ကရာဇ်(နိုင်ငံကူးလက်မှတ်ပါမွေးသက္ကရာဇ်){" "}
               <span className="text-red-600">*</span>
@@ -401,7 +402,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Gender (as per passport)</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ကျား/မ(နိုင်ငံကူးလက်မှတ်ပါ){" "}
               <span className="text-red-600">*</span>
@@ -432,7 +433,7 @@ export const OutboundTravelInsuranceForm = () => {
 
           <div className="flex flex-col">
             <label htmlFor="">Estimate Departure Date</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ထွက်ခွာမည့်နေ့(ခန့်မှန်းခြေ){" "}
               <span className="text-red-600">*</span>
@@ -463,7 +464,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Journey From</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ထွက်ခွာမည့်နိုင်ငံ <span className="text-red-600">*</span>
             </label>
@@ -481,7 +482,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Journey To</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ဆိုက်ရောက်မည့်နိုင်ငံ <span className="text-red-600">*</span>
             </label>
@@ -513,7 +514,7 @@ export const OutboundTravelInsuranceForm = () => {
           {/* // ------------------- 4th ------------------- */}
           <div className="flex flex-col">
             <label htmlFor="">Policy Start Date</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ပေါ်လစီစတင်မည့်နေ့ <span className="text-red-600">*</span>
             </label>
@@ -544,7 +545,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Coverage Plan</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               အာမခံသက်တမ်း <span className="text-red-600">*</span>
             </label>
@@ -575,7 +576,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Packages</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ပက်ကေ့ချ် <span className="text-red-600">*</span>
             </label>
@@ -598,11 +599,11 @@ export const OutboundTravelInsuranceForm = () => {
             </>
           ) : (
             <>
-              {/* Replace with the options for 'mmk' */}
+              {/* Replace with the options for 'MMK' */}
               <option value="">SELECT ONE</option>
-              <option value="30000000">MMK 30,000,000</option>
-              <option value="90000000">MMK 90,000,000</option>
-              <option value="150000000">MMK 150,000,000</option>
+              <option value="10000">MMK 30,000,000</option>
+              <option value="30000">MMK 90,000,000</option>
+              <option value="50000">MMK 150,000,000</option>
             </>
           )}
             </select>
@@ -613,7 +614,7 @@ export const OutboundTravelInsuranceForm = () => {
           {/* // ------------------- 5th ------------------- */}
           <div className="flex flex-col">
             <label htmlFor="">Insured's Contact Phone Number</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ဆက်သွယ်ရမည့်ဖုန်းနံပါတ် <span className="text-red-600">*</span>
             </label>
@@ -664,7 +665,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Foreign Contact Number</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">ဆက်သွယ်ရမည့်နိုင်ငံခြားဖုန်းနံပါတ်</label>
             )}
             <div className="grid grid-cols-4 border-2 mt-2 border-gray-[#CFD4D9] rounded-md">
@@ -707,7 +708,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Father's Name</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">ဖခင်အမည်</label>
             )}
             <input
@@ -723,7 +724,7 @@ export const OutboundTravelInsuranceForm = () => {
           {/* // ------------------- 6th ------------------- */}
           <div className="flex flex-col">
             <label htmlFor="">Race</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">လူမျိုး</label>
             )}
             <input
@@ -737,7 +738,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Occupation</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">အလုပ်အကိုင်</label>
             )}
             <input
@@ -751,7 +752,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Marital Status</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">အိမ်ထောင်ရှိ/မရှိ</label>
             )}
             <div className="flex items-center gap-x-4 mt-2">
@@ -793,7 +794,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Insured's Email Address</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">အီးမေးလ်လိပ်စာ</label>
             )}
             <input
@@ -807,7 +808,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Address in Myanmar</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               မြန်မာနိုင်ငံရှိနေရပ်လိပ်စာ (Max: 250 Char)
             </label>
@@ -826,7 +827,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Address Abroad</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ဆိုက်ရောက်မည့်နိုင်ငံနေရပ်လိပ်စာ (Max: 250 Char){" "}
               <span className="text-red-600">*</span>
@@ -849,7 +850,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Destination Country</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ဆိုက်ရောက်မည့်နိုင်ငံ <span className="text-red-600">*</span>
             </label>
@@ -888,7 +889,7 @@ export const OutboundTravelInsuranceForm = () => {
             <div className="grid grid-cols-3 gap-8 mt-4">
               <div className="flex flex-col">
                 <label htmlFor="">Child Name</label>
-                {insuredInfo.buyOption === 'mmk' && (
+                {insuredInfo.currency === 'MMK' && (
                 <label htmlFor="">
                   ကလေးအမည် *<span className="text-red-600">*</span>
                 </label>
@@ -910,7 +911,7 @@ export const OutboundTravelInsuranceForm = () => {
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Date of Birth</label>
-                {insuredInfo.buyOption === 'mmk' && (
+                {insuredInfo.currency === 'MMK' && (
                 <label htmlFor="">
                   မွေးသက္ကရာဇ် <span className="text-red-600">*</span>
                 </label>
@@ -941,7 +942,7 @@ export const OutboundTravelInsuranceForm = () => {
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Gender</label>
-                {insuredInfo.buyOption === 'mmk' && (
+                {insuredInfo.currency === 'MMK' && (
                 <label htmlFor="">
                   ကျား/မ <span className="text-red-600">*</span>
                 </label>
@@ -968,7 +969,7 @@ export const OutboundTravelInsuranceForm = () => {
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Guardiance Name</label>
-                {insuredInfo.buyOption === 'mmk' && (
+                {insuredInfo.currency === 'MMK' && (
                 <label htmlFor="">
                   အုပ်ထိန်းသူအမည် <span className="text-red-600">*</span>
                 </label>
@@ -990,7 +991,7 @@ export const OutboundTravelInsuranceForm = () => {
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Relationship</label>
-                {insuredInfo.buyOption === 'mmk' && (
+                {insuredInfo.currency === 'MMK' && (
                 <label htmlFor="">
                   တော်စပ်ပုံ <span className="text-red-600">*</span>
                 </label>
@@ -1024,7 +1025,7 @@ export const OutboundTravelInsuranceForm = () => {
         <div className="grid grid-cols-3 gap-8 mt-4">
           <div className="flex flex-col">
             <label htmlFor="">Name</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               အမည် <span className="text-red-600">*</span>
             </label>
@@ -1046,7 +1047,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Date of Birth</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               မွေးသက္ကရာဇ် <span className="text-red-600">*</span>
             </label>
@@ -1077,7 +1078,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Relationship</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               တော်စပ်ပုံ <span className="text-red-600">*</span>
             </label>
@@ -1099,7 +1100,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Contact Phone Number</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ဆက်သွယ်ရမည့်ဖုန်းနံပါတ် <span className="text-red-600">*</span>
             </label>
@@ -1150,7 +1151,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">National Identificaiton Number</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">နိုင်ငံသားစိစစ်ရေးကတ်ပြားအမှတ်</label>
             )}
             <input
@@ -1167,7 +1168,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Email</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">အီးမေးလ်လိပ်စာ</label>
             )}
             <input
@@ -1184,7 +1185,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="">Address</label>
-            {insuredInfo.buyOption === 'mmk' && (
+            {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">နေရပ်လိပ်စာ(Max: 250 Char)</label>
             )}
             <textarea
@@ -1305,11 +1306,11 @@ export const OutboundTravelInsuranceForm = () => {
                 </label>
                 <input
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-                  placeholder={
-                    insuredInfo.isValidated
-                      ? insuredInfo.agentName
-                      : "AGENT NAME"
-                  }
+                  // placeholder={
+                  //   insuredInfo.isValidated
+                  //     ? insuredInfo.agentName
+                  //     : "AGENT NAME"
+                  // }
                   value={insuredInfo.isValidated ? insuredInfo.agentName : ""}
                   type="text"
                   disabled
@@ -1353,10 +1354,10 @@ export const OutboundTravelInsuranceForm = () => {
                 </label>
                 <input
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-                  placeholder={
-                    insuredInfo.isValidated ? "testing" : "AGENT LICENSE NUMBER"
-                  }
-                  value={insuredInfo.isValidated ? insuredInfo.agentLicense : ""}
+                  // placeholder={
+                  //   insuredInfo.isValidated ? "testing" : "AGENT LICENSE NUMBER"
+                  // }
+                  value={insuredInfo.isValidated ? insuredInfo.agentLicenseNumber : ""}
                   type="text"
                   disabled
                 />

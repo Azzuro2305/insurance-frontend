@@ -20,21 +20,20 @@ const Report = ({ searchResult, setSearchResult }) => {
               </tr>
             </thead>
             <tbody>
-
-              {searchResult.map((result, index) => (
-  <tr key={index} className='border-b text-[#214C9B]'>
-    <td className='py-5 border-r'>{index + 1}</td>
-    <td className=' border-r'>{result.insuredName}</td>
-    <td className=' border-r'>{result.insuredAge}</td>
-    <td className=' border-r'>{result.insuredPhoneNumber}</td>
-    <td className=' border-r'>{result.coveragePlan}</td>
-    <td className=' border-r'>{result.rate}</td>
-    <td>
-      <DownloadPDFButton data={result} />
-    </td>
-  </tr>
-))}
-            </tbody>
+  {searchResult && searchResult.map((result, index) => (
+    <tr key={index} className='border-b text-[#214C9B]'>
+      <td className='py-5 border-r'>{index + 1}</td>
+      <td className=' border-r'>{result.insuredName}</td>
+      <td className=' border-r'>{result.insuredAge}</td>
+      <td className=' border-r'>{result.insuredPhoneNumber}</td>
+      <td className=' border-r'>{result.coveragePlan}</td>
+      <td className=' border-r'>{result.rate}</td>
+      <td>
+        <DownloadPDFButton data={result} />
+      </td>
+    </tr>
+  ))}
+</tbody>
         </table>
     </div>
   )

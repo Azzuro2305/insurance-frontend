@@ -8,9 +8,10 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import logoImage from "../Images/logo.png";
-import tbl1 from "../img/tableOfBenefits.png";
-import tbl2 from "../img/tableOfBenefits2.png";
-import tbl3 from "../img/tableOfBenefits3.png";
+
+import tbl1 from "../Images/tableOfBenefits.png";
+import tbl2 from "../Images/tableOfBenefits2.png";
+import tbl3 from "../Images/tableOfBenefits3.png";
 import { format } from "date-fns";
 
 const styles = StyleSheet.create({

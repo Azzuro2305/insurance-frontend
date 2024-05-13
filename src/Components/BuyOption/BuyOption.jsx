@@ -6,10 +6,10 @@ import InsuredInfoContext from '../InsuranceForm/InsuredInfoContext'
 export const BuyOption = () => {
     const { insuredInfo, setInsuredInfo } = useContext(InsuredInfoContext);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        navigate('/payment-info', { state: { insuredInfo: insuredInfo } });
-      };
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     navigate('/payment-info', { state: { insuredInfo: insuredInfo } });
+    //   };
 
     console.log(insuredInfo);
     return (

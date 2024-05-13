@@ -19,6 +19,7 @@ export const NormalAgentForm = ( { insuredInfo, setInsuredInfo } ) => {
       setInsuredInfo({
         ...insuredInfo,
         isValidated: response.data.data.valid,
+        agentPassword: response.data.data.agentPassword
       });
     // setSubmitted(false);
     } catch (err) {
@@ -92,8 +93,7 @@ console.log('isValidated: ', insuredInfo.isValidated);
                 (e) => {
                   setInsuredInfo({
                     ...insuredInfo,
-                    agentLicense: e.target.value,
-                    agentPassword: e.target.value  // jin htae htar tal
+                    agentLicenseNumber: e.target.value,
                   },
                   setAgentInfo({
                     ...agentInfo,

@@ -17,7 +17,7 @@ export const Home = () => {
           <section className="xs2:w-[300px] xs:w-[430px] sm:w-[540px] md:w-[930px] xl:w-[1150px] mt-[-30px] py-[50px] mx-auto">
           <BuyOption />
           </section>
-            <DownloadPDFButton />
+            {/* <DownloadPDFButton /> */}
             {/* <Enquiry/>
             <Footer /> */}
             

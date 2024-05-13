@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Image,
 } from "@react-pdf/renderer";
-import logoImage from "../Images/logo.png";
+import logo from "../Images/logo.png";
 import { format } from "date-fns";
 
 const styles = StyleSheet.create({

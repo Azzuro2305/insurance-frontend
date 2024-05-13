@@ -23,6 +23,7 @@ function App() {
     passportNumber: "",
     passportIssuedDate: "",
     passportIssuedCountry: "",
+    passportCountry: "",
     insuredName: "",
     insuredDOB: "",
     insuredGender: "",
@@ -68,7 +69,7 @@ function App() {
     // Agent Information
     agentName: "",
     agentPassword: "",
-    agentLicense: "",
+    agentLicenseNumber: "",
 
     // Child, Agent Check
     hasChild: false,
@@ -88,7 +89,7 @@ function App() {
     currency: "",
     totalAmount: 0,
     netAmount: 0,
-    serviceCharges: 0,
+    serviceCharges: 3,
   });
 
   useEffect(() => {

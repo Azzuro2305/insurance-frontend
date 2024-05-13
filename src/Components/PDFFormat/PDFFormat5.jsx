@@ -8,7 +8,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import logoImage from "../Images/logo.png";
-import sch2 from "../img/sch2.png";
+import sch2 from "../Images/sch2.png";
 import { format } from "date-fns";
 
 const styles = StyleSheet.create({

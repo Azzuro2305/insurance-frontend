@@ -7,7 +7,7 @@ import Report from '../Components/EnquirySearch/Report'
 const Enquiry = () => {
   const [ searchResult, setSearchResult ] = useState([]);
   const [ submitted, setSubmitted ] = useState(false);
-  console.log(submitted);
+  // console.log(submitted);
   console.log(searchResult);
   return (
     // <div className=' shadow-xl my-10'>

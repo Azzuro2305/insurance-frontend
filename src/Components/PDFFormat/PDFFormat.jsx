@@ -1,9 +1,22 @@
 // import { Document, Page, Image as PDFImage, StyleSheet, View } from '@react-pdf/renderer';
 import { Document, Page, Image , StyleSheet, View, Text  } from '@react-pdf/renderer';
 import Images from '../Images/Images'
+import { format } from "date-fns";
 // import logoImage from "../Images/logo.png"
 // import Ulink from "../Images/Ulink_Logo.png";
 // import qr from "../Images/qr_code.png";
+
+import PDFFormat2 from './PDFFormat2';
+import PDFFormat3 from './PDFFormat3';
+import PDFFormat4 from './PDFFormat4';
+import PDFFormat5 from './PDFFormat5';
+import PDFFormat6 from './PDFFormat6';
+import PDFFormat7 from './PDFFormat7';
+import PDFFormat8 from './PDFFormat8';
+import PDFFormat9 from './PDFFormat9';
+import PDFFormat10 from './PDFFormat10';
+import PDFFormat11 from './PDFFormat11';
+import PDFFormat12 from './PDFFormat12';
 
 
 const styles = StyleSheet.create({
@@ -239,6 +252,7 @@ const styles = StyleSheet.create({
 </Document> */}
 
 export const PDFFormat = ( { data }) => (
+  // const currentDate = format(new Date(), "dd MMMM, yyyy");
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
@@ -262,19 +276,19 @@ export const PDFFormat = ( { data }) => (
           <View style={styles.bindV1}>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Insurance Period</Text>
-              <Text>: {data.coveragePlan} Days  (From {data.policyStartDate} To {data.policyEndDate})</Text>
+              <Text>: {data && data.coveragePlan} Days  (From {data && data.policyStartDate} To {data && data.policyEndDate})</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Certificate Number</Text>
-              <Text>: {data.proposalID}</Text>
+              <Text>: {data && data.proposalID}</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Agent/Agency name </Text>
-              <Text>: {data.hasAgent ? data.agentName : 'N/A'}</Text>
+              <Text>: {data && data.hasAgent ? data && data.agentName : 'N/A'}</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Policy Holder</Text>
-              <Text>: {data.insuredName}</Text>
+              <Text>: {data && data.insuredName}</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Covid-19 coverage</Text>
@@ -286,7 +300,7 @@ export const PDFFormat = ( { data }) => (
             </View>
 
             <Text style={styles.bindV1Txtnpm}>
-              Buy for yourself (This passport holder)
+              : Buy for yourself (This passport holder)
             </Text>
           </View>
 
@@ -298,30 +312,34 @@ export const PDFFormat = ( { data }) => (
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Destination To</Text>
-              <Text>: {data.destinationCountry}</Text>
+              <Text>: {data && data.destinationCountry}</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>PP/Country</Text>
               <Text>
-                : {data.insuredPassportNumber}
-                {data.insuredPassportIssuedCountry}
+                : {data && data.passportNumber}
+                 ( {data && data.passportIssuedCountry})
               </Text>
             </View>
+            {/* <View style={styles.innerBind}>
+            <Text style={styles.innerBindTxt}></Text>
+              <Text>{data && data.passportIssuedCountry}</Text>
+            </View> */}
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Deductible /Person</Text>
-              <Text>: 300,000 per claim * </Text>
+              <Text>: 500$ per Claims *</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Currency</Text>
-              <Text>: MMK</Text>
+              <Text>: USD</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Payment Date</Text>
-              <Text>: 25 Jan 2023</Text>
+              <Text>: {data && data.paymentDate}</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Premium</Text>
-              <Text>:</Text>
+              <Text>:{data && data.rate}</Text>
             </View>
           </View>
         </View>
@@ -352,26 +370,30 @@ export const PDFFormat = ( { data }) => (
           {/* Sec Row */}
           <View style={styles.tblCon2}>
             <View style={styles.tblsec}>
-              <Text> </Text>
+              <Text>{data && data.hasChild ? data && data.childName : data && data.insuredName}</Text>
+              {data && data.hasChild ? <Text>(QQ: {data && data.insuredName})</Text> : null}
+              {/* <Text>(QQ:{data && data.hasChild ? data && data.insuredName : ""})</Text> */}
             </View>
             <View style={styles.tblsec}>
-              <Text></Text>
+              <Text>{data && data.hasChild ? data && data.childDOB : data && data.insuredDOB}</Text>
             </View>
             <View style={styles.tblsec}>
-              <Text></Text>
+              <Text>{data && data.hasChild ? data && data.childAge : data && data.insuredAge}</Text>
             </View>
             <View style={styles.tblsec}>
-              <Text></Text>
+              <Text>{data && data.coveragePlan} Days</Text>
             </View>
             <View style={styles.tblsec1}>
               <Text>
-                {" "}
+                {data && data.hasChild ? "Child without passport" : data && data.passportNumber}
                
               </Text>
             </View>
           </View>
         </View>
-        <Image src={Images.tableOfBenefits} style={styles.benf}></Image>
+        <Image src={data && data.packages == "10000" ? Images.tableOfBenefits :
+ data.packages == "30000" ? Images.tableOfBenefits2 :
+ data.packages == "50000" ? Images.tableOfBenefits3 : null} style={styles.benf}></Image>
         <View>
           <Text style={styles.txtAfP}>
             This is a computer-generated document. No signature is required.
@@ -397,11 +419,43 @@ export const PDFFormat = ( { data }) => (
             </View>
           </View>
           <View style={styles.date}>
-            <Text>Print Date : </Text>
+            <Text>Print Date : {format(new Date(), "dd MMMM, yyyy")}</Text>
           </View>
         </View>
       </View>
     </Page>
+
+      <PDFFormat2 />
+
+
+      <PDFFormat3 />
+
+
+      <PDFFormat4 />
+
+
+      <PDFFormat5 />
+
+
+      <PDFFormat6 />
+
+
+      <PDFFormat7 />
+
+
+      <PDFFormat8 />
+
+
+      <PDFFormat9 />
+
+
+      <PDFFormat10 />
+
+
+      <PDFFormat11 />
+
+
+      <PDFFormat12 />
 
    
   </Document>
