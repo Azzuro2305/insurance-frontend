@@ -204,13 +204,12 @@ export const OutboundTravelInsuranceForm = () => {
       <form
         onSubmit={ handleSubmit }
         action=""
-        className="text-[#214C9B] bg-white text-[14px] font-[500] w-[1150px] mx-auto rounded-md shadow-lg py-12 px-8"
-      >
-        <h1 className="text-[16px] font-semibold">
-          PASSPORT INFORMATION (In English)
+        className="text-[#214C9B] bg-white text-[14px] font-[500] xs2:w-11/12 xs2:mx-auto sm:w-[510px] md:w-[690px] mid:w-[960px] medium:w-[1150px] mx-auto rounded-md shadow-lg py-12 px-8"      >
+        <h1 className="text-[16px] font-semibold underline-offset-auto underline">
+            PASSPORT INFORMATION (In English)
         </h1>
         {/* // ------------------- 1st ------------------- */}
-        <div className="grid grid-cols-3 gap-8 mt-4">
+        <div className="mid:grid mid:grid-cols-3 space-y-3 mid:space-y-0 gap-8 mt-4">
           <div className="flex flex-col">
             <label htmlFor="">Passport Number</label>
             {insuredInfo.currency === 'MMK' && (
@@ -303,7 +302,7 @@ export const OutboundTravelInsuranceForm = () => {
         <h1 className="text-[16px] font-semibold underline">
           INSURED INFORMATION (In English)
         </h1>
-        <div className="grid grid-cols-3">
+        <div className="md:grid md:grid-cols-3 mb-3">
           <div className="flex mt-2">
             <input
               type="radio"
@@ -318,7 +317,7 @@ export const OutboundTravelInsuranceForm = () => {
                   hasChild: false,
                 })
               }
-              className="w-6 h-6"
+              className="xs2:w-5 md:w-6 md:h-6"
             />
             <label htmlFor="foryourself" className="ml-2">
               BUY FOR YOURSELF (THIS PASSPORT HOLDER)
@@ -338,15 +337,14 @@ export const OutboundTravelInsuranceForm = () => {
                   hasChild: true,
                 })
               }
-              className="w-6 h-6"
-            />
+              className="xs2:w-9 xs:w-6 md:h-6"            />
             <label htmlFor="forthechild" className="ml-2 w-[550px]">
               BUY FOR THE CHILD TRAVEL TOGETHER WITH THIS PASSPORT HOLDER (CHILD
               IS NOT HOLDING A VALID PASSPORT)
             </label>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="mid:grid mid:grid-cols-3 space-y-3 mid:space-y-0 gap-8">
           {/* // ------------------- 2nd ------------------- */}
           <div className="flex flex-col">
             <label htmlFor="">Name (as per passport)</label>
@@ -886,8 +884,8 @@ export const OutboundTravelInsuranceForm = () => {
             <h1 className="text-[16px] font-semibold underline">
               CHILD INFORMATION (CHILD IS NOT HOLDING A VALID PASSPORT)
             </h1>
-            <div className="grid grid-cols-3 gap-8 mt-4">
-              <div className="flex flex-col">
+            <div className="mid:grid mid:grid-cols-3 space-y-3 mid:space-y-0 gap-8 mt-4">
+               <div className="flex flex-col">
                 <label htmlFor="">Child Name</label>
                 {insuredInfo.currency === 'MMK' && (
                 <label htmlFor="">
@@ -1022,7 +1020,7 @@ export const OutboundTravelInsuranceForm = () => {
           BENEFICIARY INFORMATION (In English) အကျိုးခံစားခွင့်ရှိသူနှင့်
           သက်ဆိုင်သော အချက်အလက်
         </h1>
-        <div className="grid grid-cols-3 gap-8 mt-4">
+        <div className="mid:grid mid:grid-cols-3 space-y-3 mid:space-y-0 gap-8 mt-4">
           <div className="flex flex-col">
             <label htmlFor="">Name</label>
             {insuredInfo.currency === 'MMK' && (
@@ -1205,7 +1203,7 @@ export const OutboundTravelInsuranceForm = () => {
           <h1 className="text-[16px] font-semibold underline">
             This section is only used for servicing agent of Myanma Insurance
           </h1>
-          <div className="flex gap-x-6 mt-2">
+          <div className="md:flex space-y-2 md:space-y-0 gap-x-6 mt-2">
             <div className="flex items-center gap-x-2">
               <input
                 type="radio"
@@ -1299,18 +1297,14 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
 
           {insuredInfo.agentType === "normalagent" && (
-            <div className="grid grid-cols-3 gap-x-8 mt-4">
+            <div className="md:grid md:grid-cols-3 gap-x-8 space-y-3 md:space-y-0 mt-4">
               <div className="flex flex-col">
                 <label htmlFor="">
                   Name <span className="text-red-600">*</span>
                 </label>
                 <input
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-                  // placeholder={
-                  //   insuredInfo.isValidated
-                  //     ? insuredInfo.agentName
-                  //     : "AGENT NAME"
-                  // }
+                  placeholder="AGENT NAME"
                   value={insuredInfo.isValidated ? insuredInfo.agentName : ""}
                   type="text"
                   disabled
@@ -1322,11 +1316,7 @@ export const OutboundTravelInsuranceForm = () => {
                 </label>
                 <input
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-                  placeholder={
-                    insuredInfo.isValidated
-                      ? insuredInfo.agentLicense
-                      : "AGENT LICENSE NUMBER"
-                  }
+                  placeholder="AGENT LICENSE NUMBER"
                   value={insuredInfo.isValidated ? insuredInfo.agentLicense : ""}
                   type="text"
                   disabled
@@ -1347,16 +1337,14 @@ export const OutboundTravelInsuranceForm = () => {
           )}
 
           {insuredInfo.agentType === "associationagent" && (
-            <div className="grid grid-cols-3 gap-x-8 mt-4">
+            <div className="md:grid md:grid-cols-3 gap-x-8 space-y-3 md:space-y-0 mt-4">
               <div className="flex flex-col">
                 <label htmlFor="">
                   Agent License Number <span className="text-red-600">*</span>
                 </label>
                 <input
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-                  // placeholder={
-                  //   insuredInfo.isValidated ? "testing" : "AGENT LICENSE NUMBER"
-                  // }
+                  placeholder="AGENT LICENSE NUMBER"
                   value={insuredInfo.isValidated ? insuredInfo.agentLicenseNumber : ""}
                   type="text"
                   disabled
@@ -1368,7 +1356,7 @@ export const OutboundTravelInsuranceForm = () => {
                 </label>
                 <input
                   className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
-                  placeholder=""
+                  placeholder="AGENT NAME"
                   type="text"
                   value={insuredInfo.isValidated ? insuredInfo.agentName : ""}
                   disabled
@@ -1388,8 +1376,7 @@ export const OutboundTravelInsuranceForm = () => {
             </div>
           )}
         </div>
-        <input
-          className="bg-[#214C9B] text-white px-6 py-2 rounded-sm"
+        <input className="bg-[#214C9B] text-white hover:bg-white hover:border-[#214C9B] border hover:text-[#214C9B] transition-all duration-300 px-6 py-2 rounded-sm"
           type="submit"
           value="SUBMIT AND CONTINUE"
           // onClick={ handleSubmit }
