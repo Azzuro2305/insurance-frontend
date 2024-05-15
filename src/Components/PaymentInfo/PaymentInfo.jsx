@@ -60,25 +60,25 @@ export const PaymentInfo = () => {
                 <td className="w-[350px] p-2 font-semibold xs2:px-2 md:px-4">
                   Premium Amount
                 </td>
-                <td className='xs2:px-2 md:px-4'>{ insuredInfo.rate }</td>
+                <td className='xs2:px-2 md:px-4'>{ insuredInfo.rate } { insuredInfo.currency == "USD" ? "USD" : "MMK" }</td>
               </tr>
               <tr className="border-b border-white">
                 <td className="w-[350px] p-2 font-semibold xs2:px-2 md:px-4">
                   Service Charge ( Visa )
                 </td>
-                <td className='xs2:px-2 md:px-4'>{ insuredInfo.serviceCharges }</td>
+                <td className='xs2:px-2 md:px-4'>{ insuredInfo.serviceCharges } { insuredInfo.currency == "USD" ? "USD" : "MMK" }</td>
               </tr>
               <tr className="border-b border-white">
                 <td className="w-[350px] p-2 font-semibold xs2:px-2 md:px-4">
                   Total Amount (Including Service Charges)
                 </td>
-                <td className='xs2:px-2 md:px-4'> { insuredInfo.netPremium }</td>
+                <td className='xs2:px-2 md:px-4'> { insuredInfo.netPremium } { insuredInfo.currency == "USD" ? "USD" : "MMK" }</td>
               </tr>
               <tr className="border-b border-white">
                 <td className="w-[350px] p-2 font-semibold xs2:px-2 md:px-4">
                   Net Amount (Including Service Charges)
                 </td>
-                <td className='xs2:px-2 md:px-4'>{ insuredInfo.netPremium }</td>
+                <td className='xs2:px-2 md:px-4'>{ insuredInfo.netPremium } { insuredInfo.currency == "USD" ? "USD" : "MMK" }</td>
               </tr>
             </tbody>
           </table>

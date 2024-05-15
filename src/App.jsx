@@ -86,7 +86,7 @@ function App() {
     childAge: "",
     rate: 0,
     netPremium: 0,
-    currency: "",
+    currency: "USD",
     totalAmount: 0,
     netAmount: 0,
     serviceCharges: 3,

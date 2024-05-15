@@ -211,7 +211,7 @@ export const OutboundTravelInsuranceForm = () => {
         {/* // ------------------- 1st ------------------- */}
         <div className="mid:grid mid:grid-cols-3 space-y-3 mid:space-y-0 gap-8 mt-4">
           <div className="flex flex-col">
-            <label htmlFor="">Passport Number</label>
+            <label htmlFor="">Passport Number {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
               <label htmlFor="">
                 နိုင်ငံကူးလက်မှတ်အမှတ် <span className="text-red-600">*</span>
@@ -233,7 +233,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Passport Issued Date</label>
+            <label htmlFor="">Passport Issued Date {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               နိုင်ငံကူးလက်မှတ်ထုတ်ပေးသည့်နေ့{" "}
@@ -266,7 +266,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Passport Issued Country</label>
+            <label htmlFor="">Passport Issued Country{insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               နိုင်ငံကူးလက်မှတ်ထုတ်ပေးသည့်နိုင်ငံ{" "}
@@ -309,7 +309,7 @@ export const OutboundTravelInsuranceForm = () => {
               id="foryourself"
               name="buyoption"
               value="foryourself"
-              // checked={insuredInfo.buyOption === "foryourself"}
+              checked={insuredInfo.buyOption === "foryourself"}
               onChange={(e) =>
                 setInsuredInfo({
                   ...insuredInfo,
@@ -329,7 +329,7 @@ export const OutboundTravelInsuranceForm = () => {
               id="forthechild"
               name="buyoption"
               value="forthechild"
-              // checked={insuredInfo.buyOption === "forthechild"}
+              checked={insuredInfo.buyOption === "forthechild"}
               onChange={(e) =>
                 setInsuredInfo({
                   ...insuredInfo,
@@ -347,7 +347,7 @@ export const OutboundTravelInsuranceForm = () => {
         <div className="mid:grid mid:grid-cols-3 space-y-3 mid:space-y-0 gap-8">
           {/* // ------------------- 2nd ------------------- */}
           <div className="flex flex-col">
-            <label htmlFor="">Name (as per passport)</label>
+            <label htmlFor="">Name (as per passport) {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               အမည်(နိုင်ငံကူးလက်မှတ်ပါအမည်){" "}
@@ -367,7 +367,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Date of Birth (as per passport)</label>
+            <label htmlFor="">Date of Birth (as per passport) {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               မွေးသက္ကရာဇ်(နိုင်ငံကူးလက်မှတ်ပါမွေးသက္ကရာဇ်){" "}
@@ -399,7 +399,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Gender (as per passport)</label>
+            <label htmlFor="">Gender (as per passport) {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ကျား/မ(နိုင်ငံကူးလက်မှတ်ပါ){" "}
@@ -430,7 +430,7 @@ export const OutboundTravelInsuranceForm = () => {
           {/* // ------------------- 3rd ------------------- */}
 
           <div className="flex flex-col">
-            <label htmlFor="">Estimate Departure Date</label>
+            <label htmlFor="">Estimate Departure Date {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ထွက်ခွာမည့်နေ့(ခန့်မှန်းခြေ){" "}
@@ -461,7 +461,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Journey From</label>
+            <label htmlFor="">Journey From <span className="text-red-600">*</span></label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ထွက်ခွာမည့်နိုင်ငံ <span className="text-red-600">*</span>
@@ -479,7 +479,7 @@ export const OutboundTravelInsuranceForm = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Journey To</label>
+            <label htmlFor="">Journey To {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ဆိုက်ရောက်မည့်နိုင်ငံ <span className="text-red-600">*</span>
@@ -511,7 +511,7 @@ export const OutboundTravelInsuranceForm = () => {
           
           {/* // ------------------- 4th ------------------- */}
           <div className="flex flex-col">
-            <label htmlFor="">Policy Start Date</label>
+            <label htmlFor="">Policy Start Date {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ပေါ်လစီစတင်မည့်နေ့ <span className="text-red-600">*</span>
@@ -542,7 +542,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Coverage Plan</label>
+            <label htmlFor="">Coverage Plan {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               အာမခံသက်တမ်း <span className="text-red-600">*</span>
@@ -573,7 +573,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Packages</label>
+            <label htmlFor="">Packages {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ပက်ကေ့ချ် <span className="text-red-600">*</span>
@@ -611,7 +611,7 @@ export const OutboundTravelInsuranceForm = () => {
           </div>
           {/* // ------------------- 5th ------------------- */}
           <div className="flex flex-col">
-            <label htmlFor="">Insured's Contact Phone Number</label>
+            <label htmlFor="">Insured's Contact Phone Number {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ဆက်သွယ်ရမည့်ဖုန်းနံပါတ် <span className="text-red-600">*</span>
@@ -644,7 +644,7 @@ export const OutboundTravelInsuranceForm = () => {
               <input
                 className="col-span-3 rounded-md p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                 placeholder="ENTER PHONE NUMBER"
-                type="text"
+                type="number"
                 onChange={(e) =>
                   setInsuredInfo({
                     ...insuredInfo,
@@ -690,7 +690,7 @@ export const OutboundTravelInsuranceForm = () => {
               <input
                 className="col-span-3 rounded-md p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                 placeholder="ENTER PHONE NUMBER"
-                type="text"
+                type="number"
                 onChange={(e) =>
                   setInsuredInfo({
                     ...insuredInfo,
@@ -798,7 +798,7 @@ export const OutboundTravelInsuranceForm = () => {
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="Enter Email Address"
-              type="text"
+              type="email"
               onChange={(e) =>
                 setInsuredInfo({ ...insuredInfo, insuredEmail: e.target.value })
               }
@@ -824,7 +824,7 @@ export const OutboundTravelInsuranceForm = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Address Abroad</label>
+            <label htmlFor="">Address Abroad {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ဆိုက်ရောက်မည့်နိုင်ငံနေရပ်လိပ်စာ (Max: 250 Char){" "}
@@ -847,7 +847,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Destination Country</label>
+            <label htmlFor="">Destination Country {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ဆိုက်ရောက်မည့်နိုင်ငံ <span className="text-red-600">*</span>
@@ -886,7 +886,7 @@ export const OutboundTravelInsuranceForm = () => {
             </h1>
             <div className="mid:grid mid:grid-cols-3 space-y-3 mid:space-y-0 gap-8 mt-4">
                <div className="flex flex-col">
-                <label htmlFor="">Child Name</label>
+                <label htmlFor="">Child Name {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
                 {insuredInfo.currency === 'MMK' && (
                 <label htmlFor="">
                   ကလေးအမည် *<span className="text-red-600">*</span>
@@ -908,7 +908,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Date of Birth</label>
+                <label htmlFor="">Date of Birth {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
                 {insuredInfo.currency === 'MMK' && (
                 <label htmlFor="">
                   မွေးသက္ကရာဇ် <span className="text-red-600">*</span>
@@ -939,7 +939,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Gender</label>
+                <label htmlFor="">Gender {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
                 {insuredInfo.currency === 'MMK' && (
                 <label htmlFor="">
                   ကျား/မ <span className="text-red-600">*</span>
@@ -966,7 +966,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Guardiance Name</label>
+                <label htmlFor="">Guardiance Name {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
                 {insuredInfo.currency === 'MMK' && (
                 <label htmlFor="">
                   အုပ်ထိန်းသူအမည် <span className="text-red-600">*</span>
@@ -988,7 +988,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Relationship</label>
+                <label htmlFor="">Relationship {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
                 {insuredInfo.currency === 'MMK' && (
                 <label htmlFor="">
                   တော်စပ်ပုံ <span className="text-red-600">*</span>
@@ -1022,7 +1022,7 @@ export const OutboundTravelInsuranceForm = () => {
         </h1>
         <div className="mid:grid mid:grid-cols-3 space-y-3 mid:space-y-0 gap-8 mt-4">
           <div className="flex flex-col">
-            <label htmlFor="">Name</label>
+            <label htmlFor="">Name {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               အမည် <span className="text-red-600">*</span>
@@ -1044,7 +1044,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Date of Birth</label>
+            <label htmlFor="">Date of Birth {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               မွေးသက္ကရာဇ် <span className="text-red-600">*</span>
@@ -1075,7 +1075,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Relationship</label>
+            <label htmlFor="">Relationship {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               တော်စပ်ပုံ <span className="text-red-600">*</span>
@@ -1097,7 +1097,7 @@ export const OutboundTravelInsuranceForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="">Contact Phone Number</label>
+            <label htmlFor="">Contact Phone Number {insuredInfo && insuredInfo.currency === "USD" ? <span className="text-red-600">*</span> : null}</label>
             {insuredInfo.currency === 'MMK' && (
             <label htmlFor="">
               ဆက်သွယ်ရမည့်ဖုန်းနံပါတ် <span className="text-red-600">*</span>
@@ -1130,7 +1130,7 @@ export const OutboundTravelInsuranceForm = () => {
               <input
                 className="col-span-3 rounded-md p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
                 placeholder="ENTER PHONE NUMBER"
-                type="text"
+                type="number"
                 onChange={(e) =>
                   setInsuredInfo({
                     ...insuredInfo,
@@ -1172,7 +1172,7 @@ export const OutboundTravelInsuranceForm = () => {
             <input
               className="border-2 border-gray-[#CFD4D9] rounded-md mt-2 p-2 focus:border-[1px] focus:border-[#8ABAF9] focus:outline-none focus:ring-[3px] focus:ring-[#CCDDFD]"
               placeholder="Enter Email"
-              type="text"
+              type="email"
               onChange={(e) =>
                 setInsuredInfo({
                   ...insuredInfo,
